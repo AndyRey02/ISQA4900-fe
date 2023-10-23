@@ -1,24 +1,95 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '@/components/Home.vue'
+import Auth from '@/components/Auth.vue'
+import Register from '@/components/Register'
+import GroupList from '@/components/GroupList'
+import GroupCreate from '@/components/GroupCreate'
+
+import TaskList from '@/components/TaskList'
+import TaskCreate from '@/components/TaskCreate'
+import ListList from '@/components/ListList'
+import ListCreate from '@/components/ListCreate'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'Home',
+    component: Home
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/group-list',
+    name: 'GroupList',
+    component: GroupList
+  },
+  {
+    path: '/group-list/:msg',
+    name: 'GroupUpdatedList',
+    component: GroupList
+  },
+  {
+    path: '/group-create',
+    name: 'GroupCreate',
+    component: GroupCreate
+  },
+  {
+    path: '/group-create/:pk',
+    name: 'GroupUpdate',
+    component: GroupCreate
+  },
+  {
+    path: '/task-list',
+    name: 'TaskList',
+    component: TaskList
+  },
+  {
+    path: '/task-list/:msg',
+    name: 'TaskUpdatedList',
+    component: TaskList
+  },
+  {
+    path: '/task-create',
+    name: 'TaskCreate',
+    component: TaskCreate
+  },
+  {
+    path: '/task-create/:pk',
+    name: 'TaskUpdate',
+    component: TaskCreate
+  },
+  {
+    path: '/list-list',
+    name: 'ListList',
+    component: ListList
+  },
+  {
+    path: '/list-list/:msg',
+    name: 'ListUpdatedList',
+    component: ListList
+  },
+  {
+    path: '/list-create',
+    name: 'ListCreate',
+    component: ListCreate
+  },
+  {
+    path: '/list-create/:pk',
+    name: 'ListUpdate',
+    component: ListCreate
+  },
+  {
+    path: '/auth',
+    name: 'Auth',
+    component: Auth
+  },
+  {
+    path:'/register',
+    name: 'Register',
+    component: Register
+  } 
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes
 })
 

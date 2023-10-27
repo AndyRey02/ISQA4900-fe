@@ -1,6 +1,6 @@
 import axios from 'axios';
 // Change the API_URL to the correct location of the backend API before deploying the app
-const API_URL = 'https://99mislas.pythonanywhere.com/'
+const API_URL = 'http://127.0.0.1:8000'
 
   export class APIService {
     constructor() {
@@ -117,7 +117,7 @@ const API_URL = 'https://99mislas.pythonanywhere.com/'
        const url = `${API_URL}/api/profiles/${profile.pk}`;
        let jwtToken = localStorage.getItem('access');
        const headers = {Authorization: `JWT ${jwtToken}`};
-        return axios.put(url, profile, {headers: headers});
+       return axios.put(url, profile, {headers: headers});
      }
      deleteProfile(profile_pk){
         const url = `${API_URL}/api/profiles/${profile_pk}`;

@@ -4,7 +4,8 @@ import Auth from '@/components/Auth.vue'
 import Register from '@/components/Register'
 import GroupList from '@/components/GroupList'
 import GroupCreate from '@/components/GroupCreate'
-
+import ProfileList from '@/components/ProfileList'
+import ProfileCreate from '@/components/ProfileCreate'
 import TaskList from '@/components/TaskList'
 import TaskCreate from '@/components/TaskCreate'
 import ListList from '@/components/ListList'
@@ -15,6 +16,26 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/profile-list',
+    name: 'ProfileList',
+    component: ProfileList
+  },
+  {
+    path: '/profile-list/:msg',
+    name: 'ProfileUpdatedList',
+    component: ProfileList
+  },
+  {
+    path: '/profile-create',
+    name: 'ProfileCreate',
+    component: ProfileCreate
+  },
+  {
+    path: '/profile-create/:pk',
+    name: 'ProfileUpdate',
+    component: ProfileCreate
   },
   {
     path: '/group-list',

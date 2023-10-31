@@ -28,14 +28,14 @@
               <img :src="require('@/assets/tasks.jpg')" class="card-img-top" style="height: 15rem">
               <div class="card-body">
                 <h5 class="card-title">Project Boards</h5>
-                <a @click="viewTasks" class="btn btn-primary">Show Tasks</a>
+                <a @click="viewList" class="btn btn-primary">Show Lists</a>
               </div>
             </div>
             <div class="card">
               <img :src="require('@/assets/list.jpg')" class="card-img-top" style="height: 15rem">
               <div class="card-body">
                 <h5 class="card-title">ToDo Items</h5>
-                <a @click="viewList" class="btn btn-primary">Show List</a>
+                <a @click="viewTasks" class="btn btn-primary">Show Tasks</a>
               </div>
             </div>
           </div>

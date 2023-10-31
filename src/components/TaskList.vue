@@ -73,7 +73,7 @@
     import router from '../router';
     import {APIService} from '../http/APIService';
     const apiService = new APIService();
-  
+
     export default {
       name: 'GroupCreate',
       components: {},

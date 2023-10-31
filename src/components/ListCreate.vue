@@ -1,138 +1,138 @@
 <template>
-    <div class="container-fluid">
-      <div class="row align-items-center justify-content-center">
-        <div class=" col align-items-center">
-          <div class="row align-items-center justify-content-center">
-            <div class="col col-12 col-sm-10 col-md-10 col-lg-6">
-              <div class="alert alert-danger shadow" role="alert"
-              v-if="showMsg === 'error'">
-                Please verify Group Information
-              </div>
+  <div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+      <div class=" col align-items-center">
+        <div class="row align-items-center justify-content-center">
+          <div class="col col-12 col-sm-10 col-md-10 col-lg-6">
+            <div class="alert alert-danger shadow" role="alert"
+                 v-if="showMsg === 'error'">
+              Please verify List Information
+            </div>
+            <div class="alert alert-danger shadow" role="alert"
+                 v-if="showMsg === 'requestError'">
+              Please verify List Information - data formatted
+              incorrectly
             </div>
           </div>
-          <div class="row align-items-center justify-content-center">
-            <div class="col col-12 col-sm-10 col-md-10 col-lg-6 align-items-center">
-              <div class="card">
-                <div class="card-header">{{pageTitle}}</div>
-                <div class="card-body">
-                  <form ref="form">
-                    <div class="container-fluid">
-                      <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">ToDo Item</label>
-                        <div class="col col-8">
-                          <input v-model="group.cust_number" type="number" class="form-control-sm form-control">
-                        </div>
-                      </div>
-                      <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">Description</label>
-                        <div class="col col-8">
-                          <input v-model="group.name" type="text" class="form-control-sm form-control">
-                        </div>
-                      </div>          
-    
-                                        
-                      <div class="row justify-content-around">
-                        <div v-if="!isUpdate" type="button" class="btn btn-primary col-4" @click="createGroup">Save</div>
-                        <div v-if="isUpdate" type="button" class="btn btn-primary col-4" @click="updateGroup">Update</div>
-                        <div type="button" class="btn btn-secondary col-4" @click="cancelOperation">Cancel</div>   
+        </div>
+        <div class="row align-items-center justify-content-center">
+          <div class="col col-12 col-sm-10 col-md-10 col-lg-6 align-items-center">
+            <div class="card">
+              <div class="card-header">{{ pageTitle }}</div>
+              <div class="card-body">
+                <form ref="form">
+                  <div class="container-fluid">
+                    <div class="form-group row justify-content-around py-2">
+                      <label class="col-5">List</label>
+                      <div class="col col-7">
+                        <input v-model="lists.title" type="text"
+                               class="form-control-sm form-control">
                       </div>
                     </div>
-                  </form>
-                </div>
+                    <div class="form-group row justify-content-around py-2">
+                      <label class="col-5">Description</label>
+                      <div class="col col-7">
+                        <input v-model="lists.description"
+                               type="text" class="form-control-sm form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row justify-content-around py-2">
+                      <label class="col-5">Notes</label>
+                      <div class="col col-7">
+                        <input v-model="lists.notes"
+                               type="text" class="form-control-sm form-control">
+                      </div>
+                    </div>
+                    <div class="row justify-content-around">
+                      <div v-if="!isUpdate" type="button" class="btnbtn-primary col-4" @click="createList">Save
+                      </div>
+                      <div v-if="isUpdate" type="button" class="btnbtn-primary col-4" @click="updateList">Update
+                      </div>
+                      <div type="button" class="btn btn-secondary
+col-4" @click="cancelOperation">Cancel
+                      </div>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </template>
-  <script>
-    import router from '../router';
-    import {APIService} from '../http/APIService';
-    const apiService = new APIService();
-  
-    export default {
-      name: 'GroupCreate',
-      components: {},
-          //prevent user from accessing this page if not authorized
-    beforeCreate() {
-    if (localStorage.getItem("isAuthenticated") &&
-        JSON.parse(localStorage.getItem("isAuthenticated")) === true ){
-          this.authenticated = true
+  </div>
+</template>
+<script>
+import router from '../router';
+import {APIService} from '../http/APIService';
+const apiService = new APIService();
+export default {
+  name: 'ListCreate',
+  components: {},
+  //prevent user from accessing this page if not authorized
+beforeCreate() {
+  if (localStorage.getItem("isAuthenticated") &&
+      JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
+    this.authenticated = true
+  } else {
+    this.authenticated = false
+  }
+  if (this.authenticated === false) {
+    router.push("/auth");
+  }
+  },
+  data() {
+    return {
+      showError: false,
+      lists: {},
+      pageTitle: "Add New List",
+      isUpdate: false,
+      showMsg: '',
+    };
+  },
+  methods: {
+    createList() {
+      apiService.addNewList(this.lists).then(response => {
+        if (response.status === 201) {
+          this.lists = response.data;
+          this.showMsg = "";
+          router.push('/list-list/new');
+        } else {
+          this.showMsg = "error";
         }
-        else {
-          this.authenticated = false
+      }).catch(error => {
+        this.showMsg = "error";
+      });
+    },
+    cancelOperation() {
+      router.push("/list-list");
+    },
+    updateList() {
+      apiService.updateList(this.list).then(response => {
+        if (response.status === 200) {
+          this.list = response.data;
+          router.push('/list-list/update');
+        } else {
+          this.showMsg = "error";
         }
-        if(this.authenticated===false){
-            router.push("/auth");
-          }
-   },
-      data() {
-        return {
-          showError: false,
-          group: {},
-          pageTitle: "Add New ToDo Item",
-          isUpdate: false,
-          showMsg: '',
-          authenticated: false
-        };
-      },
-      methods: {
-        createGroup() {
-          apiService.addNewGroup(this.group).then(response => {
-            if (response.status === 201) {
-              this.group = response.data;
-               this.showMsg = "";
-              router.push('/group-list/new');
-            }else{
-                this.showMsg = "error";
-            }
-          }).catch(error => {
-            if (error.response.status === 401) { // "not authorized"
-              router.push("/auth");
-            }else if (error.response.status === 400) { //"bad request"
-              this.showMsg = "requestError";
-            }else{
-              this.showMsg = "error";
-            }
-          });
-        },
-        cancelOperation(){
-           router.push("/group-list");
-        },
-        updateGroup() {
-          apiService.updateGroup(this.group).then(response => {
-            if (response.status === 200) {
-              this.group = response.data;
-              router.push('/group-list/update');
-            }else{
-                this.showMsg = "error";
-            }
-          }).catch(error => {
-            if (error.response.status === 401) {
-              router.push("/auth");
-            }else if (error.response.status === 400) {
-              this.showMsg = "error";
-            }
-          });
-        }
-      },
-      mounted() {
-        if (this.$route.params.pk) {
-          this.pageTitle = "Edit Group";
-          this.isUpdate = true;
-          apiService.getGroup(this.$route.params.pk).then(response => {
-            this.group = response.data;
-          }).catch(error => {
-            if (error.response.status === 401) { // "not authorized"
-              router.push("/auth");
-            }else{
-              this.showMsg = "error";
-              router.push("/auth");
-            }
-          });
-        }
-      },
+      }).catch(error => {
+        this.showMsg = "error";
+      });
     }
-  </script>
- 
+  },
+  mounted() {
+// if a primary key is provided, set title and get the list record
+    if (this.$route.params.pk) {
+      this.pageTitle = "Edit List";
+      this.isUpdate = true;
+      apiService.getList(this.$route.params.pk).then(response => {
+        this.list = response.data;
+      }).catch(error => {
+        this.showMsg = "error";
+      });
+    }
+  },
+};
+</script>
+<style>
+</style>

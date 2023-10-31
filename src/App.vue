@@ -8,10 +8,10 @@
          <router-link :to="{name: 'GroupList'}">Work Groups</router-link> |
      </li>
      <li class="nav-item">
-         <router-link :to="{name: 'TaskList'}">Project Boards</router-link> |
+         <router-link :to="{name: 'ListList'}">Project Lists</router-link> |
      </li>
      <li class="nav-item">
-         <router-link :to="{name: 'ListList'}">ToDo Items</router-link> |
+         <router-link :to="{name: 'TaskList'}">ToDo Items</router-link> |
      </li>
 
      <li class="nav-item" v-if="!authenticated" @click="register" >

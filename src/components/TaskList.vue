@@ -21,6 +21,9 @@ justify-content-center">
         </div>
       </div>
     </div>
+    <br>
+    <h1>Tasks ToDo</h1>
+    <br>
     <div class="row align-items-center justify-content-center">
       <div class="col col-12 col-md-10 d-none d-xl-block d-lg-block d-md-
 block">
@@ -30,7 +33,6 @@ block">
             <th scope="col">ID</th>
             <th scope="col">Task Name</th>
             <th scope="col">Description</th>
-            <th scope="col">Completion Status</th>
             <th scope="col">Due Date</th>
             <th scope="col">Notes</th>
             <th scope="col">List</th>
@@ -40,26 +42,21 @@ block">
           </tr>
           </thead>
           <tbody>
-          <tr v-for="task in tasks" v-bind:key="tasks">
-            <th scope="row">{{ tasks.id }}</th>
-            <td>{{ tasks.title }}</td>
-            <td>{{ tasks.description }}</td>
-            <td>{{ tasks.completion_status }}</td>
-            <td>{{ tasks.due_date }}</td>
-            <td>{{ tasks.notes }}</td>
-            <td>{{ tasks.list }}</td>
-            <td @click="updateCompletionStatus(tasks)">
-              <button class="checkbox" style="background-color: transparent;padding: 0;">
-                <font-awesome-icon icon="pencil"/>
-              </button>
-            </td>
-            <td @click="updateTask(tasks)">
+          <tr v-for="task in tasklist" v-bind:key="task">
+            <th scope="row">{{ task.id }}</th>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.notes }}</td>
+            <td>{{ task.list }}</td>
+            <td>{{ task.difficulty }}</td>
+            <td @click="updateTask(task)">
               <button style="background-color: transparent;
 padding: 0;">
                 <font-awesome-icon icon="pencil"/>
               </button>
             </td>
-            <td @click="deleteTask(tasks)">
+            <td @click="deleteTask(task)">
               <button style="background-color: transparent;
 padding: 0;">
                 <font-awesome-icon icon="trash"/>
@@ -80,32 +77,36 @@ padding: 0;">
 <script>
 import router from "../router";
 import {APIService} from "@/http/APIService";
-
 const apiService = new APIService();
 export default {
-  name: 'TaskCreate',
-  components: {},
-  //prevent user from accessing this page if not authorized
-  beforeCreate() {
+      name: 'TaskCreate',
+      components: {},
+          //prevent user from accessing this page if not authorized
+    beforeCreate() {
     if (localStorage.getItem("isAuthenticated") &&
-        JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
-      this.authenticated = true
-    } else {
-      this.authenticated = false
-    }
-    if (this.authenticated === false) {
-      router.push("/auth");
-    }
-  },
+        JSON.parse(localStorage.getItem("isAuthenticated")) === true ){
+          this.authenticated = true
+        }
+        else {
+          this.authenticated = false
+        }
+        if(this.authenticated===false){
+            router.push("/auth");
+          }
+   },
   data() {
     return {
       showError: false,
-      tasks: {},
+      tasklist: {},
       pageTitle: "Add New Task",
       isUpdate: false,
       showMsg: '',
       authenticated: false
     };
+  },
+  mounted() {
+    this.getTaskList();
+    this.showMessages();
   },
   methods: {
     onResize() {
@@ -119,11 +120,11 @@ export default {
         this.showMsg = this.$route.params.msg;
       }
     },
-    getTask() {
+    getTaskList() {
       apiService
-          .getTask()
+          .getTaskList()
           .then((response) => {
-            this.tasks = response.data;
+            this.tasklist = response.data;
             this.tasksSize = this.tasks.length;
           })
           .catch((error) => {
@@ -148,18 +149,6 @@ export default {
           this.showMsg = "error"
         });
       }
-    }
-  },
-  mounted() {
-// if a primary key is provided, set title and get the task record
-    if (this.$route.params.pk) {
-      this.pageTitle = "Edit Task";
-      this.isUpdate = true;
-      apiService.getTask(this.$route.params.pk).then(response => {
-        this.task = response.data;
-      }).catch(error => {
-        this.showMsg = "error";
-      });
     }
   },
 };

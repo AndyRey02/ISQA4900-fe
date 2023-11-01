@@ -21,6 +21,9 @@ justify-content-center">
         </div>
       </div>
     </div>
+    <br>
+    <h1>Current Project Lists</h1>
+    <br>
     <div class="row align-items-center justify-content-center">
       <div class="col col-12 col-md-10 d-none d-xl-block d-lg-block d-md-
 block">
@@ -70,20 +73,6 @@ import {APIService} from "@/http/APIService";
 
 const apiService = new APIService();
 export default {
-  name: 'ListCreate',
-  components: {},
-  //prevent user from accessing this page if not authorized
-  beforeCreate() {
-    if (localStorage.getItem("isAuthenticated") &&
-        JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
-      this.authenticated = true
-    } else {
-      this.authenticated = false
-    }
-    if (this.authenticated === false) {
-      router.push("/auth");
-    }
-  },
   data() {
     return {
       showError: false,
@@ -93,6 +82,10 @@ export default {
       showMsg: '',
       authenticated: false
     };
+  },
+  mounted() {
+    this.getListList();
+    this.showMessages();
   },
   methods: {
     onResize() {
@@ -106,9 +99,9 @@ export default {
         this.showMsg = this.$route.params.msg;
       }
     },
-    getList() {
+    getListList() {
       apiService
-          .getList()
+          .getListList()
           .then((response) => {
             this.list = response.data;
             this.listsSize = this.list.length;
@@ -135,18 +128,6 @@ export default {
           this.showMsg = "error"
         });
       }
-    }
-  },
-  mounted() {
-// if a primary key is provided, set title and get the list record
-    if (this.$route.params.pk) {
-      this.pageTitle = "Edit List";
-      this.isUpdate = true;
-      apiService.getList(this.$route.params.pk).then(response => {
-        this.list = response.data;
-      }).catch(error => {
-        this.showMsg = "error";
-      });
     }
   },
 };

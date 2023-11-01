@@ -44,9 +44,11 @@
                       </div>
                     </div>
                     <div class="row justify-content-around">
-                      <div v-if="!isUpdate" type="button" class="btnbtn-primary col-4" @click="createList">Save
+                      <div v-if="!isUpdate" type="button" class="btn
+btn-primary col-4" @click="createList">Save
                       </div>
-                      <div v-if="isUpdate" type="button" class="btnbtn-primary col-4" @click="updateList">Update
+                      <div v-if="isUpdate" type="button" class="btn
+btn-primary col-4" @click="updateList">Update
                       </div>
                       <div type="button" class="btn btn-secondary
 col-4" @click="cancelOperation">Cancel

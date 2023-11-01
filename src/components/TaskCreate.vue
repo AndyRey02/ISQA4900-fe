@@ -6,7 +6,7 @@
             <div class="col col-12 col-sm-10 col-md-10 col-lg-6">
               <div class="alert alert-danger shadow" role="alert"
               v-if="showMsg === 'error'">
-                Please verify Group Information
+                Please verify Task Information
               </div>
             </div>
           </div>
@@ -17,46 +17,46 @@
                 <div class="card-body">
                   <form ref="form">
                     <div class="container-fluid">
-                      <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">Project Name</label>
+                      <div class="form-task row justify-content-around py-2">
+                        <label class="col-4">Task Name</label>
                         <div class="col col-8">
-                          <input v-model="group.cust_number" type="number" class="form-control-sm form-control">
+                          <input v-model="task.title" type="text" class="form-control-sm form-control">
                         </div>
                       </div>
-                      <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">ToDo Item 1</label>
+                      <div class="form-task row justify-content-around py-2">
+                        <label class="col-4">Task Description</label>
                         <div class="col col-8">
-                          <input v-model="group.name" type="text" class="form-control-sm form-control">
+                          <input v-model="task.description" type="text" class="form-control-sm form-control">
                         </div>
                       </div>          
-                      <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">ToDo Item 2</label>
+                      <div class="form-task row justify-content-around py-2">
+                        <label class="col-4">Due Date</label>
                         <div class="col col-8">
-                          <input v-model="group.name" type="text" class="form-control-sm form-control">
+                          <input v-model="task.due_date" type="date" class="form-control-sm form-control">
                         </div>
                       </div> 
-                      <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">ToDo Item 3</label>
+                      <div class="form-task row justify-content-around py-2">
+                        <label class="col-4">Notes</label>
                         <div class="col col-8">
-                          <input v-model="group.name" type="text" class="form-control-sm form-control">
+                          <input v-model="task.notes" type="text" class="form-control-sm form-control">
                         </div>
                       </div>   
-                      <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">ToDo Item 4</label>
+                      <div class="form-task row justify-content-around py-2">
+                        <label class="col-4">List</label>
                         <div class="col col-8">
-                          <input v-model="group.name" type="text" class="form-control-sm form-control">
+                          <input v-model="task.list" type="text" class="form-control-sm form-control">
                         </div>
                       </div>
-                      <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">ToDo Item 5</label>
+                      <div class="form-task row justify-content-around py-2">
+                        <label class="col-4">Difficulty</label>
                         <div class="col col-8">
-                          <input v-model="group.name" type="text" class="form-control-sm form-control">
+                          <input v-model="task.difficulty" type="validators" class="form-control-sm form-control">
                         </div>
                       </div>    
                                         
                       <div class="row justify-content-around">
-                        <div v-if="!isUpdate" type="button" class="btn btn-primary col-4" @click="createGroup">Save</div>
-                        <div v-if="isUpdate" type="button" class="btn btn-primary col-4" @click="updateGroup">Update</div>
+                        <div v-if="!isUpdate" type="button" class="btn btn-primary col-4" @click="createTask">Save</div>
+                        <div v-if="isUpdate" type="button" class="btn btn-primary col-4" @click="updateTask">Update</div>
                         <div type="button" class="btn btn-secondary col-4" @click="cancelOperation">Cancel</div>   
                       </div>
                     </div>
@@ -75,7 +75,7 @@
     const apiService = new APIService();
   
     export default {
-      name: 'GroupCreate',
+      name: 'TaskCreate',
       components: {},
           //prevent user from accessing this page if not authorized
     beforeCreate() {
@@ -93,7 +93,7 @@
       data() {
         return {
           showError: false,
-          group: {},
+          task: {},
           pageTitle: "Add New Project",
           isUpdate: false,
           showMsg: '',
@@ -101,12 +101,12 @@
         };
       },
       methods: {
-        createGroup() {
-          apiService.addNewGroup(this.group).then(response => {
+        createTask() {
+          apiService.addNewTask(this.task).then(response => {
             if (response.status === 201) {
-              this.group = response.data;
+              this.task = response.data;
                this.showMsg = "";
-              router.push('/group-list/new');
+              router.push('/task-list/new');
             }else{
                 this.showMsg = "error";
             }
@@ -121,13 +121,13 @@
           });
         },
         cancelOperation(){
-           router.push("/group-list");
+           router.push("/task-list");
         },
-        updateGroup() {
-          apiService.updateGroup(this.group).then(response => {
+        updateTask() {
+          apiService.updateTask(this.task).then(response => {
             if (response.status === 200) {
-              this.group = response.data;
-              router.push('/group-list/update');
+              this.task = response.data;
+              router.push('/task-list/update');
             }else{
                 this.showMsg = "error";
             }
@@ -142,10 +142,10 @@
       },
       mounted() {
         if (this.$route.params.pk) {
-          this.pageTitle = "Edit Group";
+          this.pageTitle = "Edit Task";
           this.isUpdate = true;
-          apiService.getGroup(this.$route.params.pk).then(response => {
-            this.group = response.data;
+          apiService.getTask(this.$route.params.pk).then(response => {
+            this.task = response.data;
           }).catch(error => {
             if (error.response.status === 401) { // "not authorized"
               router.push("/auth");

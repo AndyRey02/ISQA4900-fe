@@ -4,23 +4,19 @@
       <div class="col-12 col-md-10 col-lg-10 col-12 align-items-center
 justify-content-center">
         <div class="alert alert-success"
-             v-if="showMsg === 'new'"
-             :value="true">
+             v-if="showMsg === 'new'" value="true">
           New List added.
         </div>
         <div class="alert alert-success"
-             v-if="showMsg === 'update'"
-             :value="true">
+             v-if="showMsg === 'update'" value="true">
           List updated.
         </div>
         <div class="alert alert-success"
-             v-if="showMsg === 'deleted'"
-             :value="true">
+             v-if="showMsg === 'deleted'" value="true">
           List deleted.
         </div>
         <div class="alert alert-danger"
-             v-if="showMsg === 'error'"
-             :value="true">
+             v-if="showMsg === 'error'" value="true">
           Error connecting to server. Check server.
         </div>
       </div>

@@ -28,7 +28,7 @@
                         <div class="col col-8">
                           <input v-model="task.description" type="text" class="form-control-sm form-control">
                         </div>
-                      </div>          
+                      </div>
                       <div class="form-task row justify-content-around py-2">
                         <label class="col-4">Due Date</label>
                         <div class="col col-8">
@@ -75,21 +75,6 @@
     const apiService = new APIService();
   
     export default {
-      name: 'TaskCreate',
-      components: {},
-          //prevent user from accessing this page if not authorized
-    beforeCreate() {
-    if (localStorage.getItem("isAuthenticated") &&
-        JSON.parse(localStorage.getItem("isAuthenticated")) === true ){
-          this.authenticated = true
-        }
-        else {
-          this.authenticated = false
-        }
-        if(this.authenticated===false){
-            router.push("/auth");
-          }
-   },
       data() {
         return {
           showError: false,

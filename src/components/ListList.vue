@@ -73,6 +73,21 @@ import {APIService} from "@/http/APIService";
 
 const apiService = new APIService();
 export default {
+      name: 'TaskCreate',
+      components: {},
+        //prevent user from accessing this page if not authorized
+    beforeCreate() {
+    if (localStorage.getItem("isAuthenticated") &&
+        JSON.parse(localStorage.getItem("isAuthenticated")) === true ){
+          this.authenticated = true
+        }
+        else {
+          this.authenticated = false
+        }
+        if(this.authenticated===false){
+            router.push("/auth");
+          }
+   },
   data() {
     return {
       showError: false,

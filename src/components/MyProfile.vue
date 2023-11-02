@@ -6,7 +6,7 @@
                   Welcome {{ validUserName }}!
                   <footer>
                       <small>
-                          <em>Welcome to your user list</em>
+                          <em>Welcome to your user profile</em>
                       </small>
                   </footer>
               </blockquote>
@@ -60,44 +60,43 @@
               </div>
           </div>
           <!--non-Mobile device view-->
-
-          <div class="col col-12 col-md-10 d-none d-xl-block d-lg-block d-md-block">
-              <table class="table table-hover" style="overflow-y: auto"
-                     :headers="headers">
-                  <thead>
-                  <tr>
-                      <th scope="col">Profile PK</th>
-                      <th scope="col">Private?</th>
-                      <th scope="col">User PK</th>
-                      <th scope="col">First Name</th>
-                      <th scope="col">Last Name</th>
-                      <th scope="col">Biography</th>
-                      <th scope="col">Email</th>
-                      <th scope="col">Update</th>
-                      <th scope="col">Delete</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr v-for="profile in profiles" v-bind:key="profile">
-                      <th scope="row">{{profile.pk}}</th>
-                      <td>{{profile.private}}</td>
-                      <td>{{profile.user}}</td>
-                      <td>{{profile.first_name}}</td>
-                      <td>{{profile.last_name}}</td>
-                      <td>{{profile.bio}}</td>
-                      <td>{{profile.email}}</td>
-                      <td v-if="this.authenticated === 'true'" @click="updateProfile(profile)"><button style="background-color: transparent; padding: 0;">
-                          <font-awesome-icon icon="pencil"/></button>
-                      </td>
-                      <td v-if="this.authenticated === 'true'"  @click="deleteProfile(profile)"><button style="background-color: transparent; padding: 0;">
-                          <font-awesome-icon icon="trash"/></button>
-                      </td>
-                  </tr>
-                  </tbody>
-              </table>
+          
+          <div style="margin: auto" class="col col-12 col-md-10 d-none d-xl-block d-lg-block d-md-block" v-for="profile in profiles" v-bind:key="profile">
+              <div>
+                <form class="row g-3">
+                    <div class="mb-3">
+                        <label for="disabledTextInput" class="form-label">Profile PK</label>
+                        <div type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">{{profile.pk}}</div>
+                      </div>
+                    <div class="col-md-4">
+                      <label for="disabledTextInput" class="form-label">First name</label>
+                      <div type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">{{profile.first_name}}</div>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="disabledTextInput" class="form-label">Last name</label>
+                      <div type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">{{profile.last_name}}</div>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="disabledTextInput" class="form-label">Username</label>
+                      <div type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">{{validUserName}}</div>
+                    </div>
+                    <div class="col-md-1">
+                      <label for="disabledTextInput" class="form-label">Private?</label>
+                      <div type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">{{profile.private}}</div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="disabledTextInput" class="form-label">Email</label>
+                        <div type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">{{profile.email}}</div>
+                      </div>
+                    <div class="col-md-8">
+                    <label for="disabledTextInput" class="form-label">Biography</label>
+                    <div type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">{{profile.bio}}</div>
+                    </div>
+                  </form>
+              </div>
               <!-- Only allow add of profile when authenticated user -->
-              <div v-if="this.authenticated === 'true'">
-                  <button type="button" class="btn btn-primary" @click="addNewProfile">Add New Profile</button>
+              <div v-if="this.authenticated === 'true'" style="margin-top:10px">
+                  <button type="button" class="btn btn-primary" @click="updateProfile(profile)">Update my profile</button>
               </div>
           </div>
       </div>
@@ -108,7 +107,7 @@
   const apiService = new APIService();
 
   export default {
-      name: "ProfileList",
+      name: "MyProfile",
       data: () => ({
           profiles: [],
           validUserName: "Guest",
@@ -116,6 +115,7 @@
           showMsg: '',
           isMobile: false,
           authenticated: false,
+          is_superUser: false,
           headers: [
               {text: 'Profile PK', sortable: false, align: 'left',},
               {text: 'Private', sortable: false, align: 'left',},
@@ -129,10 +129,13 @@
           ],
       }),
       mounted() {
-          this.authenticated = localStorage.getItem("isAuthenticated")
-          this.getProfiles();
-          this.showMessages();
-      },
+        this.authenticated = localStorage.getItem("isAuthenticated")
+        this.is_superuser = localStorage.getItem("is_superuser");
+        this.validUserName = localStorage.getItem("username");
+        this.userID = Number(localStorage.getItem("userID"));
+        this.getMyProfile();
+        this.showMessages();
+    },
       methods: {
           onResize() {
               if (window.innerWidth > 600)
@@ -145,14 +148,19 @@
                   this.showMsg = this.$route.params.msg;
               }
           },
-          getProfiles() {
-              apiService.getProfileList().then(response => {
+          getMyProfile() {
+              apiService.getMyProfile().then(response => {
                   this.profiles = response.data.data;
                   this.profileSize = this.profiles.length;
+                  if (this.profileSize != 0) {
                   if (localStorage.getItem("isAuthenticated")
                       && JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
                       this.validUserName = JSON.parse(localStorage.getItem("log_user"));
                   }
+                }
+                else {
+                    this.addNewProfile()
+                }
               }).catch(error => {
                   if (error.response.status === 401) {
                       localStorage.clear();
@@ -176,7 +184,7 @@
                   apiService.deleteProfile(profile.pk).then(response => {
                       if (response.status === 204) {
                           router.push('/profile-list/deleted/')
-                          this.getProfiles()
+                          this.getMyProfile()
                       }
                   }).catch(error => {
                       if (error.response.status === 401) {

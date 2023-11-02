@@ -20,13 +20,20 @@
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-4">Private</label>
                       <div class="col col-8">
-                        <input v-model="profile.private" type="boolean" class="form-control-sm form-control">
+                        <select v-model="profile.private" class="form-control-sm form-control">
+                          <option value="true">
+                            True
+                          </option>
+                          <option value="false">
+                            False
+                          </option>
+                        </select>
                       </div>
                     </div> 
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-4">User PK</label>
                       <div class="col col-8">
-                        <input v-model="profile.user" type="text" class="form-control-sm form-control">
+                        <input v-model="profile.user" type="text" class="form-control-sm form-control" id="userplaceholder">
                       </div>
                     </div>
                     <div class="form-group row justify-content-around py-2">
@@ -50,15 +57,9 @@
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-4">Email</label>
                       <div class="col col-8">
-                        <input v-model="profile.email" type="text" class="form-control-sm form-control">
+                        <input for="email" class="form-control-sm form-control" type="email" placeholder="Please enter your email here" v-model="profile.email" @blur="validateEmail">
                       </div>
                     </div>
-                    <div class="form-group row justify-content-around py-2">
-                      <label class="col-4">Image</label>
-                      <div class="col col-8">
-                        <input type="file" accept="image/*" @change="uploadImage($event)" id="file-input">
-                      </div>
-                    </div>                    
                     <div class="row justify-content-around">
                       <div v-if="!isUpdate" type="button" class="btn btn-primary col-4" @click="createProfile">Save</div>
                       <div v-if="isUpdate" type="button" class="btn btn-primary col-4" @click="updateProfile">Update</div>
@@ -106,10 +107,12 @@
       };
     },
     methods: {
-      uploadImage(event) { 
-        let data = new FormData();
-        data.append('name', 'my-picture');
-        data.append('file', event.target.files[0]); 
+      validateEmail() {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.profile.email)) {
+            this.showMsg = 'Please enter a valid email address';
+        } else {
+          this.showMsg = 'error';
+        }
       },
       createProfile() {
         apiService.addNewProfile(this.profile).then(response => {
@@ -165,6 +168,7 @@
           }
         });
       }
+      this.userID = Number(localStorage.getItem("userID"))
     },
   }
 </script>

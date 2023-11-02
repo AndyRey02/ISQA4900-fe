@@ -105,8 +105,14 @@ const API_URL = 'http://127.0.0.1:8000'
        const url = `${API_URL}/api/profiles/`;
        let jwtToken = localStorage.getItem('access');
        const headers = {Authorization: `JWT ${jwtToken}`};
-       return axios.get(url,  {headers: headers});
+       return axios.get(url, {headers: headers});
      }
+     getMyProfile() {
+      const url = `${API_URL}/api/myprofile/`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = {Authorization: `JWT ${jwtToken}`};
+      return axios.get(url,  {headers: headers});
+    }
      addNewProfile(profile){
       const url = `${API_URL}/api/profiles/`;
       let jwtToken = localStorage.getItem('access');
@@ -168,6 +174,6 @@ const API_URL = 'http://127.0.0.1:8000'
       const url = `${API_URL}/api/getUser/`;
       let jwtToken = localStorage.getItem('access');
       const headers = {Authorization: `JWT ${jwtToken}`};
-       return axios.get(url, {headers: headers});
+      return axios.get(url, {headers: headers});
      }
   }

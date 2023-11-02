@@ -6,6 +6,7 @@ import GroupList from '@/components/GroupList'
 import GroupCreate from '@/components/GroupCreate'
 import ProfileList from '@/components/ProfileList'
 import ProfileCreate from '@/components/ProfileCreate'
+import MyProfile from '@/components/MyProfile'
 import TaskList from '@/components/TaskList'
 import TaskCreate from '@/components/TaskCreate'
 import ListList from '@/components/ListList'
@@ -26,6 +27,11 @@ const routes = [
     path: '/profile-list/:msg',
     name: 'ProfileUpdatedList',
     component: ProfileList
+  },
+  {
+    path: '/myprofile',
+    name: 'MyProfile',
+    component: MyProfile
   },
   {
     path: '/profile-create',

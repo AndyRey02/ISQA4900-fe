@@ -11,6 +11,30 @@
             </footer>
           </blockquote>
         </div>
+        <div class="col col-36 align-items-left justify-content-left" font="">
+          <blockquote>
+            <strong>HoneyDo</strong>
+            <p></p>
+            <p></p>
+
+            Never lose track of lists for yourself or chores for your family ever again!
+          </blockquote>
+          <div>
+        <div class="bd-example-snippet bd-code-snippet"><div class="bd-example m-0 border-0">
+        
+        <button type="button" class="btn btn-dark btn-lg">Sign Up</button>
+
+        <button type="button" class="btn btn-outline-dark btn-lg">Learn More</button>
+        </div></div>
+          </div>
+          <br>
+          <n></n>
+        
+
+            Organize all of your lists and tasks for your "honey" to do.  Works great to keep track of house updates, chore list for kids, reminders for yourself.
+        
+          <p></p>
+        </div>
       </div>
     </div>
     <div class="container-fluid">
@@ -18,23 +42,23 @@
         <div class="col col-12 col-sm-10 col-md-10">
           <div class="card-group">
             <div class="card">
+              <h5 class="card-title">Work Groups</h5>
               <img :src="require('@/assets/group.jpg')" class="card-img-top" style="height: 15rem">
               <div class="card-body">
-                <h5 class="card-title">Work Groups</h5>
                 <a @click="viewGroups" class="btn btn-primary">Show Groups</a>
               </div>
             </div>
             <div class="card">
+              <h5 class="card-title">Project Lists</h5>
               <img :src="require('@/assets/tasks.jpg')" class="card-img-top" style="height: 15rem">
               <div class="card-body">
-                <h5 class="card-title">Project Boards</h5>
                 <a @click="viewList" class="btn btn-primary">Show Lists</a>
               </div>
             </div>
             <div class="card">
+              <h5 class="card-title">ToDo Items</h5>
               <img :src="require('@/assets/list.jpg')" class="card-img-top" style="height: 15rem">
               <div class="card-body">
-                <h5 class="card-title">ToDo Items</h5>
                 <a @click="viewTasks" class="btn btn-primary">Show Tasks</a>
               </div>
             </div>

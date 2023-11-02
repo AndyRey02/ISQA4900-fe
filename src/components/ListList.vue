@@ -119,7 +119,7 @@ export default {
           .getListList()
           .then((response) => {
             this.list = response.data;
-            this.listsSize = this.list.length;
+            this.list = this.list.length;
           })
           .catch((error) => {
             this.showMsg = "error"

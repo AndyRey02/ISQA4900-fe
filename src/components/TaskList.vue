@@ -97,7 +97,7 @@ export default {
   data() {
     return {
       showError: false,
-      tasklist: {},
+      tasklist: [],
       pageTitle: "Add New Task",
       isUpdate: false,
       showMsg: '',
@@ -124,8 +124,10 @@ export default {
       apiService
           .getTaskList()
           .then((response) => {
-            this.tasklist = response.data;
-            this.tasksSize = this.tasks.length;
+            this.tasklist = response.data.data;
+            this.tasksSize = this.tasklist.length;
+            console.log('Here'+this.tasklist)
+            console.log(response.data)
           })
           .catch((error) => {
             this.showMsg = "error"

@@ -1,8 +1,7 @@
 <template>
   <ul class="nav justify-content-end">
-     <div class="HD">HoneyDo</div>
-     <li class="nav-item active">
-         <router-link to="/">Home</router-link> |
+    <li class="nav-item ">
+         <router-link to="/">HoneyDo</router-link>  |
      </li>
      <li class="nav-item">
          <router-link :to="{name: 'GroupList'}">Work Groups</router-link> |
@@ -101,14 +100,14 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
-      color: #2c3e50;
+      color: #282227;
   }
   #nav {
       padding: 30px;
       background-color: cadetblue;
       a {
           font-weight: bold;
-          color: #2c3e50;
+          color: #39502c;
           &.router-link-exact-active {
               color: #42b983;
           }
@@ -116,18 +115,20 @@
   }
   .nav {
       padding: 1em;
-      background-color: cadetblue;
+      background-color: rgb(76, 65, 172);
       
       li {
           font-weight: bold;
-          color: #2c3e50;
+          color: #b6dc44;
       }
       a {
-          color: black;
+          color: rgb(189, 102, 15);
           padding: .5em;
 
           &.router-link-exact-active {
-              color: #42b983;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            text-align: left;  
+            color: #42b983;
           }
       }
       .FS{

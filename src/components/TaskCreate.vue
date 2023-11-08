@@ -57,7 +57,7 @@
                       <div class="row justify-content-around">
                         <div v-if="!isUpdate" type="button" class="btn btn-primary col-4" @click="createTask">Save</div>
                         <div v-if="isUpdate" type="button" class="btn btn-primary col-4" @click="updateTask">Update</div>
-                        <div type="button" class="btn btn-secondary col-4" @click="cancelOperation">Cancel</div>   
+                        <div type="button" class="btn btn-secondary col-4" @click="cancelOperation">Cancel</div>
                       </div>
                     </div>
                   </form>
@@ -75,6 +75,21 @@
     const apiService = new APIService();
   
     export default {
+      name: 'TaskCreate',
+      components: {},
+          //prevent user from accessing this page if not authorized
+    beforeCreate() {
+    if (localStorage.getItem("isAuthenticated") &&
+        JSON.parse(localStorage.getItem("isAuthenticated")) === true ){
+          this.authenticated = true
+        }
+        else {
+          this.authenticated = false
+        }
+        if(this.authenticated===false){
+            router.push("/auth");
+          }
+   },
       data() {
         return {
           showError: false,
@@ -112,7 +127,7 @@
           apiService.updateTask(this.task).then(response => {
             if (response.status === 200) {
               this.task = response.data;
-              router.push('/task-list/update');
+              router.push('/task-create/');
             }else{
                 this.showMsg = "error";
             }

@@ -123,7 +123,7 @@
       }
       a {
           color: rgb(189, 102, 15);
-          padding: .5em;
+         padding: .5em;
 
           &.router-link-exact-active {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;

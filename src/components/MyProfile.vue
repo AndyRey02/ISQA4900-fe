@@ -94,10 +94,22 @@
                     </div>
                   </form>
               </div>
+              
               <!-- Only allow add of profile when authenticated user -->
-              <div v-if="this.authenticated === 'true'" style="margin-top:10px">
-                  <button type="button" class="btn btn-primary" @click="updateProfile(profile)">Update my profile</button>
+              <div style="margin-top: 20px">
+              <div class="card w-25" style="padding: 1%; margin:auto">
+                <div class="card-body">
+                    <h5 class="card-title">Remaining Tasks:</h5>
+                    <div v-for="task in tasks" v-bind:key="task">
+                    <p class="card-text" v-if="task.completion_status != true">{{ task.title }}
+                    </p>
+                    </div>
               </div>
+            </div>
+            </div>
+              <div v-if="this.authenticated === 'true'" style="margin-top:20px">
+                <button type="button" class="btn btn-primary" @click="updateProfile(profile)">Update my profile</button>
+            </div>
           </div>
       </div>
 </template>
@@ -110,6 +122,7 @@
       name: "MyProfile",
       data: () => ({
           profiles: [],
+          tasks: [],
           validUserName: "Guest",
           profileSize: 0,
           showMsg: '',
@@ -134,6 +147,7 @@
         this.validUserName = localStorage.getItem("username");
         this.userID = Number(localStorage.getItem("userID"));
         this.getMyProfile();
+        this.getMyTasks();
         this.showMessages();
     },
       methods: {
@@ -161,6 +175,22 @@
                 else {
                     this.addNewProfile()
                 }
+              }).catch(error => {
+                  if (error.response.status === 401) {
+                      localStorage.clear();
+                      router.push("/auth");
+                  }
+              });
+          },
+          getMyTasks() {
+              apiService.getMyTasks().then(response => {
+                  this.tasks = response.data.data;
+                  console.log(this.tasks)
+                  this.taskSize = this.tasks.length;
+                  if (localStorage.getItem("isAuthenticated")
+                      && JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
+                      this.validUserName = JSON.parse(localStorage.getItem("log_user"));
+                  }
               }).catch(error => {
                   if (error.response.status === 401) {
                       localStorage.clear();

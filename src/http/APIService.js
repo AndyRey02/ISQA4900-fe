@@ -35,6 +35,12 @@ const API_URL = 'http://127.0.0.1:8000'
        const headers = {Authorization: `JWT ${jwtToken}`};
        return axios.delete(url, {headers: headers});
     }
+      getMyTasks() {
+      const url = `${API_URL}/api/mytasks/`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = {Authorization: `JWT ${jwtToken}`};
+      return axios.get(url,  {headers: headers});
+   }
     getList(param_pk) {
         const url = `${API_URL}/api/lists/${param_pk}`;
         let jwtToken = localStorage.getItem('access');

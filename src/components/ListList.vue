@@ -39,10 +39,10 @@ block">
           </thead>
           <tbody>
           <tr v-for="list in lists" v-bind:key="list">
-            <th scope="row">{{ lists.id }}</th>
-            <td>{{ lists.title }}</td>
-            <td>{{ lists.description }}</td>
-            <td>{{ lists.notes }}</td>
+            <th scope="row">{{ list.id }}</th>
+            <td>{{ list.title }}</td>
+            <td>{{ list.description }}</td>
+            <td>{{ list.notes }}</td>
             <td @click="updateList(list)">
               <button style="background-color: transparent;
 padding: 0;">
@@ -118,8 +118,10 @@ export default {
       apiService
           .getListList()
           .then((response) => {
-            this.list = response.data;
-            this.listsSize = this.list.length;
+            this.lists = response.data.data;
+            this.listsize = this.lists.length;
+            console.log('Here'+this.lists)
+            console.log(response.data)
           })
           .catch((error) => {
             this.showMsg = "error"

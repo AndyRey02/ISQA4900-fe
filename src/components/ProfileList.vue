@@ -60,9 +60,9 @@
               </div>
           </div>
           <!--non-Mobile device view-->
-
-          <div class="col col-12 col-md-10 d-none d-xl-block d-lg-block d-md-block">
-              <table class="table table-hover" style="overflow-y: auto"
+          <div style="display: flex; justify-content: center; margin:0 auto">
+          <div class="col col-12 col-md-10 align-items-center justify-content-center">
+              <table class="table table-hover" style="overflow-y: auto; "
                      :headers="headers">
                   <thead>
                   <tr>
@@ -100,6 +100,7 @@
                   <button type="button" class="btn btn-primary" @click="addNewProfile">Add New Profile</button>
               </div>
           </div>
+      </div>
       </div>
 </template>
 <script>

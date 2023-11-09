@@ -31,9 +31,9 @@
                       </div>
                     </div> 
                     <div class="form-group row justify-content-around py-2">
-                      <label class="col-4">User PK</label>
+                      <label class="col-4">Username</label>
                       <div class="col col-8">
-                        <input v-model="profile.user" type="text" class="form-control-sm form-control" id="userplaceholder">
+                        <input readonly Disabled v-model="this.validUserName" type="text" class="form-control-sm form-control" id="userplaceholder">
                       </div>
                     </div>
                     <div class="form-group row justify-content-around py-2">
@@ -103,7 +103,9 @@
         pageTitle: "Create Profile",
         isUpdate: false,
         showMsg: '',
-        authenticated: false
+        authenticated: false,
+        userID: "",
+        validUserName: "",
       };
     },
     methods: {
@@ -115,6 +117,7 @@
         }
       },
       createProfile() {
+        this.profile.user = this.userID
         apiService.addNewProfile(this.profile).then(response => {
           if (response.status === 201) {
             this.profile = response.data;
@@ -157,6 +160,8 @@
       if (this.$route.params.pk) {
         this.pageTitle = "Edit Profile";
         this.isUpdate = true;
+        this.validUserName = localStorage.getItem("username");
+        this.userID = Number(localStorage.getItem("userID"));
         apiService.getProfile(this.$route.params.pk).then(response => {
           this.profile = response.data;
         }).catch(error => {
@@ -169,6 +174,7 @@
         });
       }
       this.userID = Number(localStorage.getItem("userID"))
+      this.validUserName = localStorage.getItem("username");
     },
   }
 </script>

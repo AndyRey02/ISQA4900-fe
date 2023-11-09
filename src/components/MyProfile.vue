@@ -185,7 +185,6 @@
           getMyTasks() {
               apiService.getMyTasks().then(response => {
                   this.tasks = response.data.data;
-                  console.log(this.tasks)
                   this.taskSize = this.tasks.length;
                   if (localStorage.getItem("isAuthenticated")
                       && JSON.parse(localStorage.getItem("isAuthenticated")) === true) {

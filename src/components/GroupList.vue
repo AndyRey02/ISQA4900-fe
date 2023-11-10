@@ -35,6 +35,10 @@ block">
             <th scope="col">Founder</th>
             <th scope="col">Description</th>
             <th scope="col">Notes</th>
+            <th scope="col">Assignee 1</th>
+            <th scope="col">Assignee 2</th>
+            <th scope="col">Assignee 3</th>
+            <th scope="col">Assignee 4</th>
             <th scope="col">Update</th>
             <th scope="col">Delete</th>
           </tr>

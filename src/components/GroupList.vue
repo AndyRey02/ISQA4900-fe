@@ -25,11 +25,12 @@ justify-content-center">
     <h1>Available Work Groups:</h1>
     <br>
     <div class="row align-items-center justify-content-center">
-      <div class="col col-12 col-md-10 d-none d-xl-block d-lg-block d-md-
+      <div class="col col-10 col-md-8 d-none d-xl-block d-lg-block d-md-
 block">
         <table class="table table-hover" style="overflow-y: auto">
           <thead>
           <tr>
+            <th scope="col">ID</th>
             <th scope="col">Group Title</th>
             <th scope="col">Founder</th>
             <th scope="col">Description</th>

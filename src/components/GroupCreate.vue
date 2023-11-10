@@ -18,39 +18,57 @@
                   <form ref="form">
                     <div class="container-fluid">
                       <div class="form-group row justify-content-around py-2">
+                        <label class="col-4">Group ID</label>
+                        <div class="col col-8">
+                          <input v-model="group.id" type="number" class="form-control-sm form-control">
+                        </div>
+                      </div>
+                      <div class="form-group row justify-content-around py-2">
                         <label class="col-4">Group Name</label>
                         <div class="col col-8">
-                          <input v-model="group.cust_number" type="number" class="form-control-sm form-control">
+                          <input v-model="group.title" type="text" class="form-control-sm form-control">
+                        </div>
+                      </div>
+                      <div class="form-group row justify-content-around py-2">
+                        <label class="col-4">Founder</label>
+                        <div class="col col-8">
+                          <input v-model="group.user" type="text" class="form-control-sm form-control">
+                        </div>
+                      </div>
+                      <div class="form-group row justify-content-around py-2">
+                        <label class="col-4">Description</label>
+                        <div class="col col-8">
+                          <input v-model="group.description" type="text" class="form-control-sm form-control">
+                        </div>
+                      </div>
+                      <div class="form-group row justify-content-around py-2">
+                        <label class="col-4">Group Notes</label>
+                        <div class="col col-8">
+                          <input v-model="group.notes" type="text" class="form-control-sm form-control">
                         </div>
                       </div>
                       <div class="form-group row justify-content-around py-2">
                         <label class="col-4">Assignee 1</label>
                         <div class="col col-8">
-                          <input v-model="group.name" type="text" class="form-control-sm form-control">
-                        </div>
-                      </div>          
-                      <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">Assignee 2</label>
-                        <div class="col col-8">
-                          <input v-model="group.name" type="text" class="form-control-sm form-control">
+                          <input v-model="group.user" type="text" class="form-control-sm form-control">
                         </div>
                       </div> 
                       <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">Assignee 3</label>
+                        <label class="col-4">Assignee 2</label>
                         <div class="col col-8">
-                          <input v-model="group.name" type="text" class="form-control-sm form-control">
+                          <input v-model="group.user" type="text" class="form-control-sm form-control">
                         </div>
                       </div>   
                       <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">Assignee 4</label>
+                        <label class="col-4">Assignee 3</label>
                         <div class="col col-8">
-                          <input v-model="group.name" type="text" class="form-control-sm form-control">
+                          <input v-model="group.user" type="text" class="form-control-sm form-control">
                         </div>
                       </div>
                       <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">Assignee 5</label>
+                        <label class="col-4">Assignee 4</label>
                         <div class="col col-8">
-                          <input v-model="group.name" type="text" class="form-control-sm form-control">
+                          <input v-model="group.user" type="text" class="form-control-sm form-control">
                         </div>
                       </div>    
                                         
@@ -71,7 +89,7 @@
   </template>
   <script>
     import router from '../router';
-    import {APIService} from '../http/APIService';
+    import {APIService} from '@/http/APIService';
     const apiService = new APIService();
   
     export default {
@@ -79,13 +97,8 @@
       components: {},
           //prevent user from accessing this page if not authorized
     beforeCreate() {
-    if (localStorage.getItem("isAuthenticated") &&
-        JSON.parse(localStorage.getItem("isAuthenticated")) === true ){
-          this.authenticated = true
-        }
-        else {
-          this.authenticated = false
-        }
+    this.authenticated = !!(localStorage.getItem("isAuthenticated") &&
+        JSON.parse(localStorage.getItem("isAuthenticated")) === true);
         if(this.authenticated===false){
             router.push("/auth");
           }

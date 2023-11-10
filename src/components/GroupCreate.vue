@@ -42,7 +42,7 @@
                         </div>
                       </div>
                       <div class="form-group row justify-content-around py-2">
-                        <label class="col-4">Group Notes</label>
+                        <label class="col-4">Notes</label>
                         <div class="col col-8">
                           <input v-model="group.notes" type="text" class="form-control-sm form-control">
                         </div>
@@ -50,25 +50,25 @@
                       <div class="form-group row justify-content-around py-2">
                         <label class="col-4">Assignee 1</label>
                         <div class="col col-8">
-                          <input v-model="group.user" type="text" class="form-control-sm form-control">
+                          <input v-model="group.guest1" type="text" class="form-control-sm form-control">
                         </div>
                       </div> 
                       <div class="form-group row justify-content-around py-2">
                         <label class="col-4">Assignee 2</label>
                         <div class="col col-8">
-                          <input v-model="group.user" type="text" class="form-control-sm form-control">
+                          <input v-model="group.guest2" type="text" class="form-control-sm form-control">
                         </div>
                       </div>   
                       <div class="form-group row justify-content-around py-2">
                         <label class="col-4">Assignee 3</label>
                         <div class="col col-8">
-                          <input v-model="group.user" type="text" class="form-control-sm form-control">
+                          <input v-model="group.guest3" type="text" class="form-control-sm form-control">
                         </div>
                       </div>
                       <div class="form-group row justify-content-around py-2">
                         <label class="col-4">Assignee 4</label>
                         <div class="col col-8">
-                          <input v-model="group.user" type="text" class="form-control-sm form-control">
+                          <input v-model="group.guest4" type="text" class="form-control-sm form-control">
                         </div>
                       </div>    
                                         

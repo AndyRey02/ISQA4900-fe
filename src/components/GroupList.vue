@@ -46,6 +46,10 @@ block">
             <td>{{ group.user }}</td>
             <td>{{ group.description }}</td>
             <td>{{ group.notes }}</td>
+            <td>{{ group.guest1 }}</td>
+            <td>{{ group.guest2 }}</td>
+            <td>{{ group.guest3 }}</td>
+            <td>{{ group.guest4 }}</td>
             <td @click="updateGroup(group)">
               <button style="background-color: transparent;
 padding: 0;">

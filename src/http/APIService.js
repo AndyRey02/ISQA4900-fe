@@ -182,4 +182,28 @@ const API_URL = 'http://127.0.0.1:8000'
       const headers = {Authorization: `JWT ${jwtToken}`};
       return axios.get(url, {headers: headers});
      }
+     getGuest1(guest1){
+      const url = `${API_URL}/api/getGuest1/`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = {Authorization: `JWT ${jwtToken}`};
+      return axios.get(url, {headers: headers});
+     }
+     getGuest2(guest2){
+      const url = `${API_URL}/api/getGuest2/`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = {Authorization: `JWT ${jwtToken}`};
+      return axios.get(url, {headers: headers});
+     }
+     getGuest3(guest3){
+      const url = `${API_URL}/api/getGuest3/`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = {Authorization: `JWT ${jwtToken}`};
+      return axios.get(url, {headers: headers});
+     }
+     getGuest4(guest4){
+      const url = `${API_URL}/api/getGuest4/`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = {Authorization: `JWT ${jwtToken}`};
+      return axios.get(url, {headers: headers});
+     }
   }

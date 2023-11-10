@@ -8,11 +8,6 @@
                  v-if="showMsg === 'error'">
               Please verify List Information
             </div>
-            <div class="alert alert-danger shadow" role="alert"
-                 v-if="showMsg === 'requestError'">
-              Please verify List Information - data formatted
-              incorrectly
-            </div>
           </div>
         </div>
         <div class="row align-items-center justify-content-center">
@@ -23,7 +18,7 @@
                 <form ref="form">
                   <div class="container-fluid">
                     <div class="form-group row justify-content-around py-2">
-                      <label class="col-5">List</label>
+                      <label class="col-5">Title</label>
                       <div class="col col-7">
                         <input v-model="lists.title" type="text"
                                class="form-control-sm form-control">
@@ -36,6 +31,7 @@
                                type="text" class="form-control-sm form-control">
                       </div>
                     </div>
+
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-5">Notes</label>
                       <div class="col col-7">
@@ -43,6 +39,15 @@
                                type="text" class="form-control-sm form-control">
                       </div>
                     </div>
+
+                    <div class="form-group row justify-content-around py-2">
+                      <label class="col-5">Category</label>
+                      <div class="col col-7">
+                        <input v-model="lists.category"
+                               type="text" class="form-control-sm form-control">
+                      </div>
+                    </div>
+
                     <div class="row justify-content-around">
                       <div v-if="!isUpdate" type="button" class="btn
 btn-primary col-4" @click="createList">Save
@@ -67,21 +72,22 @@ col-4" @click="cancelOperation">Cancel
 <script>
 import router from '../router';
 import {APIService} from '../http/APIService';
+
 const apiService = new APIService();
 export default {
   name: 'ListCreate',
   components: {},
   //prevent user from accessing this page if not authorized
-beforeCreate() {
-  if (localStorage.getItem("isAuthenticated") &&
-      JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
-    this.authenticated = true
-  } else {
-    this.authenticated = false
-  }
-  if (this.authenticated === false) {
-    router.push("/auth");
-  }
+  beforeCreate() {
+    if (localStorage.getItem("isAuthenticated") &&
+        JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
+      this.authenticated = true
+    } else {
+      this.authenticated = false
+    }
+    if (this.authenticated === false) {
+      router.push("/auth");
+    }
   },
   data() {
     return {

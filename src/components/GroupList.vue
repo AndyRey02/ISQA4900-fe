@@ -152,7 +152,7 @@ export default {
     },
     deleteGroup(group) {
       if (confirm("Do you really want to delete?")) {
-        apiService.deleteGroup(group.id).then(response => {
+        apiService.deleteGroup(group.pk).then(response => {
           if (response.status === 204) {
             router.push('/group-list/deleted/')
             this.getGroup()

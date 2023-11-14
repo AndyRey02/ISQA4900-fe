@@ -1,8 +1,17 @@
 <template>
   <div class="container-fluid">
     <div class="row align-items-center justify-content-center">
-      <div class="col-12 col-md-10 col-lg-10 col-12 align-items-center
-justify-content-center">
+      <div class="col-12 col-md-10 col-lg-10 col-12 align-items-center justify-content-center">
+          <blockquote>
+          Welcome {{ validUserName }}!!
+          <footer>
+            <small>
+              <em>Welcome to your Group Lists!!</em>
+            </small>
+          </footer>
+        </blockquote>
+        </div>
+        <div class="col-12 col-md-10 col-lg-10 col-12 align-items-center justify-content-center">
         <div class="alert alert-success"
              v-if="showMsg === 'new'" value="true">
           New group added.
@@ -30,7 +39,7 @@ block">
         <table class="table table-hover" style="overflow-y: auto">
           <thead>
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col">ID #</th>
             <th scope="col">Group Title</th>
             <th scope="col">Founder</th>
             <th scope="col">Description</th>
@@ -45,7 +54,7 @@ block">
           </thead>
           <tbody>
           <tr v-for="group in GroupList" v-bind:key="group">
-            <th scope="row">{{ group.id }}</th>
+            <th scope="row">{{ group.pk }}</th>
             <td>{{ group.title }}</td>
             <td>{{ group.user }}</td>
             <td>{{ group.description }}</td>

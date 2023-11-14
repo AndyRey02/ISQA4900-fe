@@ -12,9 +12,11 @@
      <li class="nav-item">
          <router-link :to="{name: 'TaskList'}">ToDo Items</router-link> |
      </li>
-
      <li class="nav-item" v-if="!authenticated" @click="register" >
          <router-link :to="{name: 'Register'}">Register</router-link> |
+     </li>
+     <li class="nav-item" v-if="authenticated" @click="myprofile" >
+         <router-link :to="{name: 'MyProfile'}">My Profile</router-link> |
      </li>
      <li class="nav-item" v-if="!authenticated" @click="login" >
          <router-link :to="{name: 'Auth'}">Log in</router-link>

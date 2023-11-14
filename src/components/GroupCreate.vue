@@ -20,7 +20,7 @@
                       <div class="form-group row justify-content-around py-2">
                         <label class="col-4">Group ID</label>
                         <div class="col col-8">
-                          <input v-model="group.id" type="number" class="form-control-sm form-control">
+                          <input v-model="group.pk" type="number" class="form-control-sm form-control">
                         </div>
                       </div>
                       <div class="form-group row justify-content-around py-2">

@@ -124,25 +124,32 @@ export class APIService {
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };
       const fd = new FormData();
-      for (let key in profile) {
-         if (profile.hasOwnProperty(key)) {
-            fd.append(key, profile[key]);
+      if (image != null) {
+         for (let key in profile) {
+            if (profile.hasOwnProperty(key)) {
+               fd.append(key, profile[key]);
+            }
          }
-      }
-      fd.append('image', image)
-      return axios.post(url, fd, { headers: headers });
+         fd.append('image', image)
+         return axios.post(url, fd, { headers: headers });
+       }
+      else {
+         return axios.post(url, profile, { headers: headers });
+      };
    }
    updateProfile(profile, image) {
       const url = `${API_URL}/api/profiles/${profile.pk}`;
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };
       const fd = new FormData();
-      for (let key in profile) {
-         if (profile.hasOwnProperty(key)) {
-            fd.append(key, profile[key]);
+      if (image != null) {
+         for (let key in profile) {
+            if (profile.hasOwnProperty(key)) {
+               fd.append(key, profile[key]);
+            }
          }
-      }
-      fd.append('image', image)
+         fd.append('image', image)
+       }
       return axios.put(url, fd, { headers: headers });
    }
    deleteProfile(profile_pk) {

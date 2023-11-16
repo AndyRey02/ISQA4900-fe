@@ -60,7 +60,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-6"> <img :src="profile.image" alt="Circular Image" class="img rounded-circle" width="300"
+                <div class="col-md-6"> <img :src="profile.image" alt="Circular Image" style="object-fit: cover;" class="img rounded-circle" width="300"
                         height="300"> </div>
             </div>
 

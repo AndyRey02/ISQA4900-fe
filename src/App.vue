@@ -3,6 +3,9 @@
     <li class="nav-item ">
          <router-link to="/">HoneyDo</router-link>  |
      </li>
+    <li class="nav-item">
+         <router-link :to="{name: 'Contact'}">Contact Us</router-link> |
+     </li>
      <li class="nav-item">
          <router-link :to="{name: 'GroupList'}">Work Groups</router-link> |
      </li>

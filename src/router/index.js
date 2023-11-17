@@ -11,6 +11,7 @@ import TaskList from '@/components/TaskList'
 import TaskCreate from '@/components/TaskCreate'
 import ListList from '@/components/ListList'
 import ListCreate from '@/components/ListCreate'
+import Contact from '@/components/Contact'
 
 const routes = [
   {
@@ -112,7 +113,12 @@ const routes = [
     path:'/register',
     name: 'Register',
     component: Register
-  } 
+  },
+  {
+    path:'/contact',
+    name: 'Contact',
+    component: Contact
+  }
 ]
 
 const router = createRouter({

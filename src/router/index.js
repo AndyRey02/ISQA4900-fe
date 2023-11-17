@@ -7,6 +7,7 @@ import GroupCreate from '@/components/GroupCreate'
 import ProfileList from '@/components/ProfileList'
 import ProfileCreate from '@/components/ProfileCreate'
 import MyProfile from '@/components/MyProfile'
+import Profile from '@/components/Profile'
 import TaskList from '@/components/TaskList'
 import TaskCreate from '@/components/TaskCreate'
 import ListList from '@/components/ListList'
@@ -33,6 +34,11 @@ const routes = [
     path: '/myprofile',
     name: 'MyProfile',
     component: MyProfile
+  },
+  {
+    path: '/profile/:pk',
+    name: 'Profile',
+    component: Profile
   },
   {
     path: '/profile-create',
@@ -110,12 +116,12 @@ const routes = [
     component: Auth
   },
   {
-    path:'/register',
+    path: '/register',
     name: 'Register',
     component: Register
   },
   {
-    path:'/contact',
+    path: '/contact',
     name: 'Contact',
     component: Contact
   }

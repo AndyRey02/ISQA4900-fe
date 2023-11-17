@@ -132,7 +132,7 @@ export class APIService {
          }
          fd.append('image', image)
          return axios.post(url, fd, { headers: headers });
-       }
+      }
       else {
          return axios.post(url, profile, { headers: headers });
       };
@@ -149,7 +149,7 @@ export class APIService {
             }
          }
          fd.append('image', image)
-       }
+      }
       return axios.put(url, fd, { headers: headers });
    }
    deleteProfile(profile_pk) {
@@ -205,6 +205,12 @@ export class APIService {
    }
    getAllUsers() {
       const url = `${API_URL}/api/getAllUsers/`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = { Authorization: `JWT ${jwtToken}` };
+      return axios.get(url, { headers: headers });
+   }
+   getUserFromPK(pk) {
+      const url = `${API_URL}/api/getUserFromPK/${pk}`;
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.get(url, { headers: headers });

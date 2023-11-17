@@ -7,6 +7,9 @@
             <div class="alert alert-danger shadow" role="alert" v-if="showMsg === 'error'">
               Please verify Profile Information
             </div>
+            <div class="alert alert-danger shadow" role="alert" v-if="showMsg === 'requestError'">
+              Verify that your primary key aligns with the correct user
+            </div>
           </div>
         </div>
         <div class="row align-items-center justify-content-center">
@@ -29,10 +32,17 @@
                         </select>
                       </div>
                     </div>
-                    <div class="form-group row justify-content-around py-2">
+                    <div class="form-group row justify-content-around py-2" v-if="!is_superuser">
                       <label class="col-4">Username</label>
                       <div class="col col-8">
                         <input readonly Disabled v-model="this.validUserName" type="text"
+                          class="form-control-sm form-control" id="userplaceholder">
+                      </div>
+                    </div>
+                    <div class="form-group row justify-content-around py-2" v-if="is_superuser">
+                      <label class="col-4">User</label>
+                      <div class="col col-8" id="search-autocomplete">
+                        <input v-model="profile.user" type="text"
                           class="form-control-sm form-control" id="userplaceholder">
                       </div>
                     </div>
@@ -113,6 +123,7 @@ export default {
       authenticated: false,
       userID: "",
       validUserName: "",
+      is_superuser: false, 
       selectedFile: null,
     };
   },
@@ -127,13 +138,21 @@ export default {
         this.showMsg = 'error';
       }
     },
+    validateSuperUser() {
+      if (this.is_superuser == true) {
+        return true
+      }
+      return false
+    },
     createProfile() {
-      this.profile.user = this.userID
+      if (!this.validateSuperUser()) {
+        this.profile.user = this.userID
+      }
       apiService.addNewProfile(this.profile, this.selectedFile).then(response => {
         if (response.status === 201) {
           this.profile = response.data;
           this.showMsg = "";
-          router.push('/profile-list/new');
+          router.push('/myprofile');
         } else {
           this.showMsg = "error";
         }
@@ -148,13 +167,13 @@ export default {
       });
     },
     cancelOperation() {
-      router.push("/profile-list");
+      router.push("/myprofile");
     },
     updateProfile() {
       apiService.updateProfile(this.profile, this.selectedFile).then(response => {
         if (response.status === 200) {
           this.profile = response.data;
-          router.push('/profile-list/update');
+          router.push('/myprofile');
         } else {
           this.showMsg = "error";
         }
@@ -173,6 +192,8 @@ export default {
       this.isUpdate = true;
       this.validUserName = localStorage.getItem("username");
       this.userID = Number(localStorage.getItem("userID"));
+      this.is_superuser = localStorage.getItem("is_superuser");
+      this.is_superuser = (localStorage.getItem("is_superuser") === "true")
       apiService.getProfile(this.$route.params.pk).then(response => {
         this.profile = response.data;
       }).catch(error => {
@@ -186,6 +207,8 @@ export default {
     }
     this.userID = Number(localStorage.getItem("userID"))
     this.validUserName = localStorage.getItem("username");
+    this.is_superuser = localStorage.getItem("is_superuser");
+    this.is_superuser = (localStorage.getItem("is_superuser") === "true")
   },
 }
 </script>

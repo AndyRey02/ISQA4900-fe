@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" v-if="is_superuser">
       <div class="row align-items-center justify-content-center">
           <div class="col col-12 align-items-center justify-content-center">
               <blockquote>
@@ -102,6 +102,16 @@
           </div>
       </div>
       </div>
+      <div v-if="!is_superuser">
+        <div class="row align-items-center justify-content-center">
+            <div class="col col-12 align-items-center justify-content-center">
+                <div class="alert alert-danger shadow" role="alert">
+                    Users require superuser access to view this page. 
+                  </div>
+                  <button type="button" class="btn btn-success" @click="returnHome">Return Home</button>
+            </div>
+            </div>
+      </div>
 </template>
 <script>
   import router from '../router';
@@ -117,6 +127,7 @@
           showMsg: '',
           isMobile: false,
           authenticated: false,
+          is_superuser: false, 
           headers: [
               {text: 'Profile PK', sortable: false, align: 'left',},
               {text: 'Private', sortable: false, align: 'left',},
@@ -131,10 +142,18 @@
       }),
       mounted() {
           this.authenticated = localStorage.getItem("isAuthenticated")
+          this.is_superuser = (localStorage.getItem("is_superuser") === "true")
           this.getProfiles();
           this.showMessages();
+          this.validateSuperUser();
       },
       methods: {
+            validateSuperUser() {
+                if (this.is_superuser == true) {
+                    return true
+                }
+                return false
+            },
           onResize() {
               if (window.innerWidth > 600)
                   this.isMobile = false;
@@ -169,8 +188,11 @@
                   router.push("/auth");
               }
           },
+          returnHome() {
+              router.push('/');
+          },
           updateProfile(profile) {
-              router.push('/profile-create/' + profile.pk);
+              router.push('/profile-create/' + profile.pk);    
           },
           deleteProfile(profile) {
               if(confirm("Do you really want to delete?")) {

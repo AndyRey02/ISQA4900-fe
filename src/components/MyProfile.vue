@@ -1,4 +1,5 @@
 <template>
+    <body>
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col col-12 align-items-center justify-content-center">
@@ -63,17 +64,17 @@
                 <div class="col-md-6"> <img :src="profile.image" alt="Circular Image" style="object-fit: cover;" class="img rounded-circle" width="300"
                         height="300"> </div>
             </div>
-
-
-            <!-- Only allow add of profile when authenticated user -->
             <div style="margin-top: 20px">
                 <div class="card w-25" style="padding: 1%; margin:auto">
-                    <div class="card-body">
-                        <h5 class="card-title">Remaining Tasks:</h5>
+                    <div class="card-body" v-if="getCurrentTasks(tasks)">
+                        <p class="card-title">Remaining Tasks:</p>
                         <div v-for="task in tasks" v-bind:key="task">
                             <p class="card-text" v-if="task.completion_status != true">{{ task.title }}
                             </p>
                         </div>
+                    </div>
+                    <div class="card-body" v-else>
+                        <p class="card-title">There are no remaining tasks. <br>😀</p>
                     </div>
                 </div>
             </div>
@@ -82,6 +83,7 @@
             </div>
         </div>
     </div>
+</body>
 </template>
 <script>
 import router from '../router';
@@ -93,6 +95,7 @@ export default {
     data: () => ({
         profiles: [],
         tasks: [],
+        tasksAssigned: [],
         validUserName: "Guest",
         profileSize: 0,
         showMsg: '',
@@ -112,7 +115,7 @@ export default {
         ],
     }),
     mounted() {
-        this.authenticated = localStorage.getItem("isAuthenticated")
+        this.authenticated = localStorage.getItem("isAuthenticated");
         this.is_superuser = localStorage.getItem("is_superuser");
         this.validUserName = localStorage.getItem("username");
         this.userID = Number(localStorage.getItem("userID"));
@@ -131,6 +134,13 @@ export default {
             if (this.$route.params.msg) {
                 this.showMsg = this.$route.params.msg;
             }
+        },
+        getCurrentTasks(tasks) {
+            let notcompletedtasks = tasks.filter((task) => { return !task.completion_status; }).map((task) => { return task.title;});
+            if (!notcompletedtasks.length) {
+                return false
+            }
+            return notcompletedtasks
         },
         getMyProfile() {
             apiService.getMyProfile().then(response => {
@@ -201,5 +211,8 @@ button {
     padding: 1rem;
     border: 0;
     cursor: pointer;
+}
+body {
+    font-family: bierstadt;
 }
 </style>

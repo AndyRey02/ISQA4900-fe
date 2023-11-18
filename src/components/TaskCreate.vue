@@ -13,9 +13,16 @@
         <div class="row align-items-center justify-content-center">
           <div class="col col-12 col-sm-10 col-md-10 col-lg-6 align-items-center">
             <div class="card">
+
               <div class="card-header">{{ pageTitle }}</div>
               <div class="card-body">
                 <form ref="form">
+                  <div class="form-group row justify-content-around py-2">
+                      <label class="col-4">Task pk</label>
+                      <div class="col col-8">
+                        <input v-model="task.pk" type="text" class="form-control-sm form-control">
+                      </div>
+                    </div>
                   <div class="container-fluid">
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-4">Title</label>
@@ -35,6 +42,12 @@
                       <label class="col-4">Due Date</label>
                       <div class="col col-8">
                         <input v-model="task.due_date" type="date" class="form-control-sm form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row justify-content-around py-2">
+                      <label class="col-4">Task Status</label>
+                      <div class="col col-8">
+                        <input v-model="task.status" type="text" class="form-control-sm form-control">
                       </div>
                     </div>
                     <div class="form-group row justify-content-around py-2">

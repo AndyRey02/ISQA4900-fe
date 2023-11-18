@@ -104,9 +104,16 @@ export default {
     mounted() {
         this.getProfile();
         this.showMessages();
-        this.is_superuser = (localStorage.getItem("is_superuser") === "true")
+        this.getSuperUser();
     },
     methods: {
+        getSuperUser() {
+            apiService.getUser().then(response => {
+                this.is_superuser = response.data.is_superuser
+            }).catch(error => {
+                console.error(error)
+            })
+        },
         onResize() {
             if (window.innerWidth > 600)
                 this.isMobile = false;

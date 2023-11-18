@@ -1,123 +1,91 @@
 <template>
-    <div class="container-fluid" v-if="is_superuser">
-        <div class="row align-items-center justify-content-center">
-            <div class="col col-12 align-items-center justify-content-center">
-                <blockquote>
-                    Welcome {{ validUserName }}!
-                    <footer>
-                        <small>
-                            Welcome to the user list
-                        </small>
-                    </footer>
-                </blockquote>
+    <body>
+        <div class="container-fluid" v-if="is_superuser">
+            <div class="row align-items-center justify-content-center">
+                <div class="col col-12 align-items-center justify-content-center">
+                    <blockquote>
+                        Welcome {{ validUserName }}!
+                        <footer>
+                            <small>
+                                Welcome to the user list
+                            </small>
+                        </footer>
+                    </blockquote>
+                </div>
+                <div class="col-12 col-md-10 col-lg-10 col-12 align-items-center justify-content-center">
+                    <div class="alert alert-success" v-if="showMsg === 'new'" :value="true">
+                        New profile has been added.
+                    </div>
+                    <div class="alert alert-success" v-if="showMsg === 'update'" :value="true">
+                        Profile information has been updated.
+                    </div>
+                    <div class="alert alert-success" v-if="showMsg === 'deleted'" :value="true">
+                        Selected profile has been deleted.
+                    </div>
+                </div>
             </div>
-            <div class="col-12 col-md-10 col-lg-10 col-12 align-items-center justify-content-center">
-                <div class="alert alert-success" v-if="showMsg === 'new'" :value="true">
-                    New profile has been added.
-                </div>
-                <div class="alert alert-success" v-if="showMsg === 'update'" :value="true">
-                    Profile information has been updated.
-                </div>
-                <div class="alert alert-success" v-if="showMsg === 'deleted'" :value="true">
-                    Selected profile has been deleted.
-                </div>
-            </div>
-        </div>
-        <!--Mobile device view-->
-        <div class="d-md-none" id="collapsable-card" style="width: 80%">
-            <button type="button" class="btn btn-primary" @click="addNewProfile">
-                <font-awesome-icon icon="plus" />
-            </button>
-            <div class="card" v-for="profile in profiles" v-bind:key="profile">
-                <div class="card-header" :id="'heading' + profile.user">
-                    <button class="btn btn-link collapsed" data-bs-toggle="collapse"
-                        :data-bs-target="'#collapse' + profile.pk" aria-expanded="true"
-                        :aria-controls="'collapse' + profile.pk">
-                        <h6 style="color: #0275d8; float: left">{{ profile.last_name }}</h6>
-                    </button>
-                </div>
+            <!--non-Mobile device view-->
 
-                <div :id="'collapse' + profile.pk" class="collapse" :aria-labelledby="'heading' + profile.pk"
-                    data-bs-parent="#collapsable-card">
-                    <div class="card-body">
-                        <p><b>Private?:</b> {{ profile.private }}</p>
-                        <p><b>User PK:</b>{{ profile.user }}</p>
-                        <p><b>Name:</b> {{ profile.first_name }} {{ profile.last_name }}</p>
-                        <p><b>Biography:</b> {{ profile.bio }}</p>
-                        <p><b>Phone:</b> {{ profile.email }}</p>
-                        <div class="btn-group">
-                            <button @click="updateProfile(profile)" style="background-color: transparent; padding: 5;">
-                                <font-awesome-icon icon="pencil" /></button>
-                            <button @click="deleteProfile(profile)" style="background-color: transparent; padding: 5;">
-                                <font-awesome-icon icon="trash" /></button>
+            <div class="justify-content-center row row-cols-1 row-cols-lg-4 row-cols-md-2 row-cols-sm-1 g-4" style="margin: 8%; margin-top: 0%">
+                <div v-if="this.authenticated === 'true'">
+                    <button type="button" class="btn btn-primary" @click="addNewProfile">Add New Profile</button>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">@</span>
+                    </div>
+                    <input type="text" v-model="search" class="form-control" placeholder="Username" aria-label="Username"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="col" v-for="profile in filteredList" style="padding-top: 5px">
+                    <div class="card" style="">
+                        <div class="card-body">
+                            <h5 class="card-title" :data-bs-toggle="'collapse'"
+                                :data-bs-target="'#collapseExample' + profile.pk" aria-expanded="false"
+                                aria-controls="collapseExample"> {{ profile.username }}</h5>
+                            <img :src="profile.image" alt="Circular Image" style="object-fit: cover;"
+                                class="img rounded-circle" width="100" height="100" @click="ProfilePush(profile.pk)">
+                        </div>
+                        <div class="collapse" :id="'collapseExample' + profile.pk">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">PK: {{ profile.user }}</li>
+                                <li class="list-group-item">First Name: {{ profile.first_name }}</li>
+                                <li class="list-group-item">Last Name: {{ profile.last_name }}</li>
+                                <li class="list-group-item">Biography: {{ profile.bio }}</li>
+                                <li class="list-group-item">Email: {{ profile.email }}</li>
+                                <li class="list-group-item">Private: {{ profile.private }}</li>
+                            </ul>
+                            <div class="card-body">
+                                <h5 class="card-title">Actions:</h5>
+                                <div v-if="this.authenticated === 'true'"><button
+                                        style="background-color: transparent; padding: 5px;"
+                                        @click="updateProfile(profile)">
+                                        <font-awesome-icon icon="pencil" /></button><button
+                                        style="background-color: transparent; padding: 5px;"
+                                        @click="deleteProfile(profile)">
+                                        <font-awesome-icon icon="trash" /></button></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--non-Mobile device view-->
-        <div style="display: flex; justify-content: center; margin:0 auto">
-            <div class="col col-12 col-md-10 align-items-center justify-content-center">
-                <table class="table table-hover" style="overflow-y: auto; " :headers="headers">
-                    <thead>
-                        <tr>
-                            <th scope="col">Profile PK</th>
-                            <th scope="col">Private?</th>
-                            <th scope="col">User PK</th>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Biography</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Update</th>
-                            <th scope="col">Delete</th>
-                            <th scope="col">Profile</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="profile in profiles" v-bind:key="profile">
-                            <th scope="row">{{ profile.pk }}</th>
-                            <td>{{ profile.private }}</td>
-                            <td>{{ profile.user }}</td>
-                            <td>{{ profile.first_name }}</td>
-                            <td>{{ profile.last_name }}</td>
-                            <td>{{ profile.bio }}</td>
-                            <td>{{ profile.email }}</td>
-                            <td v-if="this.authenticated === 'true'" @click="updateProfile(profile)"><button
-                                    style="background-color: transparent; padding: 0;">
-                                    <font-awesome-icon icon="pencil" /></button>
-                            </td>
-                            <td v-if="this.authenticated === 'true'" @click="deleteProfile(profile)"><button
-                                    style="background-color: transparent; padding: 0;">
-                                    <font-awesome-icon icon="trash" /></button>
-                            </td>
-                            <td v-if="this.authenticated === 'true'" @click="ProfilePush(profile.pk)"><img
-                                    :src="profile.image" alt="Circular Image" style="object-fit: cover;"
-                                    class="img rounded-circle" width="100" height="100">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <!-- Only allow add of profile when authenticated user -->
-                <div v-if="this.authenticated === 'true'">
-                    <button type="button" class="btn btn-primary" @click="addNewProfile">Add New Profile</button>
+        <div v-if="!is_superuser" class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col col-12 align-items-center justify-content-center">
+                    <div class="alert alert-danger shadow" role="alert">
+                        Users require superuser access to view this page.
+                    </div>
+                    <button type="button" class="btn btn-success" @click="returnHome">Return Home</button>
                 </div>
             </div>
         </div>
-    </div>
-    <div v-if="!is_superuser" class="container">
-        <div class="row align-items-center justify-content-center">
-            <div class="col col-12 align-items-center justify-content-center">
-                <div class="alert alert-danger shadow" role="alert">
-                    Users require superuser access to view this page.
-                </div>
-                <button type="button" class="btn btn-success" @click="returnHome">Return Home</button>
-            </div>
-        </div>
-    </div>
+    </body>
 </template>
 <script>
 import router from '../router';
 import { APIService } from '../http/APIService';
+import { faCropSimple, faTruckPlane } from '@fortawesome/free-solid-svg-icons';
 const apiService = new APIService();
 
 export default {
@@ -127,6 +95,7 @@ export default {
         validUserName: "Guest",
         profileSize: 0,
         showMsg: '',
+        search: '',
         isMobile: false,
         authenticated: false,
         is_superuser: false,
@@ -144,12 +113,31 @@ export default {
     }),
     mounted() {
         this.authenticated = localStorage.getItem("isAuthenticated")
-        this.is_superuser = (localStorage.getItem("is_superuser") === "true")
+        this.getSuperUser();
         this.getProfiles();
         this.showMessages();
         this.validateSuperUser();
     },
     methods: {
+        getUserFromPK(pk) {
+            apiService.getUserFromPK(pk).then(response => {
+                let user = response.data;
+                for (let profile of this.profiles) {
+                    if (profile.user === user.pk) {
+                        profile.username = user.username
+                    }
+                }
+            }).catch(error => {
+                console.error(error)
+            });
+        },
+        getSuperUser() {
+            apiService.getUser().then(response => {
+                this.is_superuser = response.data.is_superuser
+            }).catch(error => {
+                console.error(error)
+            })
+        },
         validateSuperUser() {
             if (this.is_superuser == true) {
                 return true
@@ -171,6 +159,9 @@ export default {
             apiService.getProfileList().then(response => {
                 this.profiles = response.data.data;
                 this.profileSize = this.profiles.length;
+                for (let profile of this.profiles) {
+                    this.getUserFromPK(profile.user)
+                }
                 if (localStorage.getItem("isAuthenticated")
                     && JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
                     this.validUserName = JSON.parse(localStorage.getItem("log_user"));
@@ -214,6 +205,15 @@ export default {
                 });
             }
         }
+    },
+    computed: {
+        filteredList() {
+            const searchLowerCase = this.search.toLowerCase();
+            if (this.profiles.length) {
+            const filteredProfiles = this.profiles.filter(profile => profile.username?.toLowerCase().includes(searchLowerCase));
+            return filteredProfiles;
+                }
+            },
     }
 };
 </script>
@@ -222,5 +222,9 @@ button {
     padding: 1rem;
     border: 0;
     cursor: pointer;
+}
+
+body {
+    font-family: bierstadt;
 }
 </style>

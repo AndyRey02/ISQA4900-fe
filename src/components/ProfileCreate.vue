@@ -144,6 +144,13 @@ export default {
       }
       return false
     },
+    getSuperUser() {
+            apiService.getUser().then(response => {
+                this.is_superuser = response.data.is_superuser
+            }).catch(error => {
+                console.error(error)
+            })
+        },
     createProfile() {
       if (!this.validateSuperUser()) {
         this.profile.user = this.userID
@@ -192,8 +199,7 @@ export default {
       this.isUpdate = true;
       this.validUserName = localStorage.getItem("username");
       this.userID = Number(localStorage.getItem("userID"));
-      this.is_superuser = localStorage.getItem("is_superuser");
-      this.is_superuser = (localStorage.getItem("is_superuser") === "true")
+      this.getSuperUser();
       apiService.getProfile(this.$route.params.pk).then(response => {
         this.profile = response.data;
       }).catch(error => {
@@ -207,8 +213,7 @@ export default {
     }
     this.userID = Number(localStorage.getItem("userID"))
     this.validUserName = localStorage.getItem("username");
-    this.is_superuser = localStorage.getItem("is_superuser");
-    this.is_superuser = (localStorage.getItem("is_superuser") === "true")
+    this.getSuperUser();
   },
 }
 </script>

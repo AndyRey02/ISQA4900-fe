@@ -22,7 +22,7 @@
           <div>
         <div class="bd-example-snippet bd-code-snippet"><div class="bd-example m-0 border-0">
 
-        <button type="button" class="btn btn-dark btn-lg my-2">Sign Up</button>
+        <button type="button" class="btn btn-dark btn-lg my-2" v-if="!authenticated" @click="register">Sign Up</button>
         <button type="button" class="btn btn-clear btn-sm"></button>  
         <button type="button" class="btn btn-outline-dark btn-lg">Learn More</button>
 

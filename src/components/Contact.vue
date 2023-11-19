@@ -57,7 +57,7 @@
             </div>
             <div class="mb-6" style="margin-bottom: 50px;">
               <label for="phone" class="text-sm text-gray-600 dark:text-gray-400"
-              >Phone Number - (Optional):</label>
+              >Phone Number (optional):</label>
               <input
                   type="text"
                   name="phone"

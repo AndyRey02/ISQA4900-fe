@@ -1,4 +1,5 @@
 <template>
+    <img src="@/assets/HoneyDoLogo.jpg" alt="HoneyDo Logo" />
   <ul class="nav justify-content-end">
     <li class="nav-item">
          <router-link to="/">HoneyDo</router-link>  |

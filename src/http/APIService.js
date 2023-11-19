@@ -36,7 +36,7 @@ export class APIService {
       return axios.delete(url, { headers: headers });
    }
    getMyTasks() {
-      const url = `${API_URL}/api/tasks/`;
+      const url = `${API_URL}/api/mytasks/`;
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.get(url, { headers: headers });
@@ -197,7 +197,7 @@ export class APIService {
       credentials.customusername = credentials.username
       return axios.post(url, credentials);
    }
-   getUser(user) {
+   getUser() {
       const url = `${API_URL}/api/getUser/`;
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };

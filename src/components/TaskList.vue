@@ -83,9 +83,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="task in tasks" v-bind:key="task.pk">
-          <th  @click="getMyTasks(task)" scope="row">
-            {{ task.pk }}</th>
+        <tr v-for="task in tasks" v-bind:key="task">
+          <th scope="row">{{ task.pk }}</th>
           <td>{{ task.title }}</td>
           <td>{{ task.description }}</td>
           <td>{{ task.completion_status }}</td>
@@ -180,10 +179,6 @@ export default {
         router.push("/auth");
       }
     },
-    getMyTasks(task) {
-      router.push({name: 'mytask', params: {pk: task.pk}});
-    },
-
     updateTask(task) {
       router.push('/task-create/' + task.pk);
     },
@@ -195,10 +190,10 @@ export default {
             this.getTasks()
           }
         }).catch(error => {
-          if (error.response.status === 401) {
-            localStorage.clear();
-            router.push("/auth");
-          }
+            if (error.response.status === 401) {
+              localStorage.clear();
+              router.push("/auth");
+            }
         });
       }
     }

@@ -71,8 +71,9 @@
         <div class="bubble-container">
             <!-- Offering 1 -->
             <div class="bubble bubble1">
-                <img src="@/assets/group.jpg" alt="Work Groups" class="bubble-image" />
-                <p class="bubble-text"><strong>Work Groups</strong></p>
+                <img src="@/assets/group.jpg" alt="Work Groups"   class="bubble-image"/>
+                <p @click="viewGroups" class="bubble-text"><strong>Work Groups</strong></p>
+
             </div>
 
             <!-- Offering 2 -->

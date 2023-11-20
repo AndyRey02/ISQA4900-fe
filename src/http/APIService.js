@@ -36,7 +36,7 @@ export class APIService {
       return axios.delete(url, { headers: headers });
    }
    getMyTasks() {
-      const url = `${API_URL}/api/mytasks/`;
+      const url = `${API_URL}/api/tasks/`;
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.get(url, { headers: headers });

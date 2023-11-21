@@ -17,6 +17,12 @@ export class APIService {
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.get(url, { headers: headers });
    }
+   getTasksFromListPK(list_pk) {
+      let jwtToken = localStorage.getItem('access');
+      const headers = { Authorization: `JWT ${jwtToken}` };
+      const url = `${API_URL}/api/gettasksfromlist/${list_pk}`;
+      return axios.get(url, { headers: headers });
+   }
    addNewTask(task) {
       const url = `${API_URL}/api/tasks/`;
       let jwtToken = localStorage.getItem('access');

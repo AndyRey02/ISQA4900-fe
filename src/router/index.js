@@ -11,7 +11,8 @@ import MyProfile from '@/components/MyProfile'
 import Profile from '@/components/Profile'
 import TaskList from '@/components/TaskList'
 import TaskCreate from '@/components/TaskCreate'
-import MyList from '@/components/MyList'
+import MyLists from '@/components/MyLists'
+import List from '@/components/List'
 import ListList from '@/components/ListList'
 import ListCreate from '@/components/ListCreate'
 import Contact from '@/components/Contact'
@@ -103,9 +104,14 @@ const routes = [
     component: ListList
   },
   {
-    path: '/mylist',
-    name: 'mylist',
-    component: MyList
+    path: '/MyLists',
+    name: 'MyLists',
+    component: MyLists
+  },
+  {
+    path: '/list/:pk',
+    name: 'list',
+    component: List
   },
   {
     path: '/list-list/:msg',

@@ -1,42 +1,38 @@
 <template>
     <body>
-    <div class="container">
-        <div class="row align-items-center justify-content-center">
-            <div class="col col-12 align-items-center justify-content-center">
-                <blockquote class="p-2 bg-success text-dark">
-                    Welcome <strong>{{ validUserName }}</strong> to your boards!
-                </blockquote>
-            </div>
-        </div>
-        <!--non-Mobile device view-->
-        <div class="container" v-for="board in boards" v-bind:key="board">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="col-md-4">
-                            <label for="disabledTextInput" class="form-label">Board Title</label>
-                            <div type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">
-                                {{ board.title }}</div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="disabledTextInput" class="form-label">Board PK</label>
-                            <div type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">
-                                {{ board.pk }}</div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="disabledTextInput" class="form-label">First name</label>
-                            <div type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">
-                                {{ board.description }}</div>
+        <div class="container mt-5">
+            <h3>My Lists</h3>
+            <!-- Non-Mobile device view -->
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="card-deck d-flex flex-wrap">
+                            <div class="card ml-3 col-md-4" v-for="board in boards" :key="board.pk">
+                                <div class="card-body" @click="navToList(board)">
+                                    <img v-if="board.list_image" :src="board.list_image" alt="Circular Image"
+                                        style="object-fit: cover;" class="img rounded" width="100" height="100">
+                                    <h5 class="card-title">List Title</h5>
+                                    <p class="card-text">{{ board.title }}</p>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Board PK</h5>
+                                    <p class="card-text">{{ board.pk }}</p>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Description</h5>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" disabled>{{ board.description }}</textarea>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Description</h5>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" disabled>{{ board.notes }}</textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div v-if="this.authenticated === 'true'" style="margin-top:20px">
-                <button type="button" class="btn btn-primary" @click="updateProfile(profile)">Update my profile</button>
-            </div>
         </div>
-    </div>
-</body>
+    </body>
 </template>
 <script>
 import router from '../router';
@@ -98,6 +94,9 @@ export default {
                     router.push("/auth");
                 }
             });
+        },
+        navToList(board) {
+            router.push('/list/' + board.pk);
         },
     }
 };

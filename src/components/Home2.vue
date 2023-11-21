@@ -162,6 +162,15 @@ export default {
 
 
     methods: {
+        viewGroups() {
+            router.push('/group-list');
+        },
+        viewTasks() {
+            router.push('/task-list');
+        },
+        viewList() {
+            router.push('/list-list');
+        },
         scrollToTemplates() {
             const bookmarkElement = document.getElementById('templates');
             if (bookmarkElement) {

@@ -70,23 +70,28 @@
 
         <div class="bubble-container">
             <!-- Offering 1 -->
-            <div class="bubble bubble1">
-                <img src="@/assets/group.jpg" alt="Work Groups"   class="bubble-image"/>
-                <p @click="viewGroups" class="bubble-text"><strong>Work Groups</strong></p>
-
-            </div>
+            <a href="/viewGroups">
+                <div class="bubble bubble1">
+                    <img src="@/assets/group.jpg" alt="Work Groups" class="bubble-image" />
+                    <p @click="viewGroups" class="bubble-text"><strong>Work Groups</strong></p>
+                </div>
+            </a>
 
             <!-- Offering 2 -->
-            <div class="bubble bubble2">
-                <img src="@/assets/list.jpg" alt="Project Lists" class="bubble-image" />
-                <p class="bubble-text"><strong>Project Lists</strong></p>
-            </div>
+            <a href="/viewList">
+                <div class="bubble bubble2">
+                    <img src="@/assets/list.jpg" alt="Project Lists" class="bubble-image" />
+                    <p class="bubble-text"><strong>Project Lists</strong></p>
+                </div>
+            </a>
 
             <!-- Offering 3 -->
-            <div class="bubble bubble3">
-                <img src="@/assets/tasks.jpg" alt="ToDo Items" class="bubble-image" />
-                <p class="bubble-text"><strong>ToDo Items</strong></p>
-            </div>
+            <a href="/viewTask">
+                <div class="bubble bubble3">
+                    <img src="@/assets/tasks.jpg" alt="ToDo Items" class="bubble-image" />
+                    <p class="bubble-text"><strong>ToDo Items</strong></p>
+                </div>
+            </a>
         </div>
 
         <br><br>
@@ -156,14 +161,14 @@ export default {
     },
 
 
-  methods: {
-    scrollToTemplates() {
-      const bookmarkElement = document.getElementById('templates');
-      if (bookmarkElement) {
-        bookmarkElement.scrollIntoView({ behavior: 'smooth' });
-      }
+    methods: {
+        scrollToTemplates() {
+            const bookmarkElement = document.getElementById('templates');
+            if (bookmarkElement) {
+                bookmarkElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        },
     },
-  },
 };
 </script>  
   
@@ -249,4 +254,5 @@ export default {
     font-family: cursive;
     font-size: xx-large;
     color: rgb(8, 104, 41);
-}</style>
+}
+</style>

@@ -155,12 +155,21 @@
 <script>
 import router from '../router'
 export default {
+    name: 'Home',
+    beforeCreate() {
+      if (localStorage.getItem("isAuthenticated") &&
+        JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
+        this.authenticated = true
+      }
+      else {
+        this.authenticated = false
+      }
+    },
     data() {
         return {
             description: "Never lose track of lists for yourself or chores for your family ever again!",
         };
     },
-
 
     methods: {
         viewGroups() {
@@ -178,6 +187,13 @@ export default {
                 bookmarkElement.scrollIntoView({ behavior: 'smooth' });
             }
         },
+        getUser() {
+        if (localStorage.getItem("isAuthenticated")
+          && JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
+          this.validUserName = JSON.parse(localStorage.getItem("log_user"));
+          this.authenticated = true;
+        }
+      }
     },
 };
 </script>  

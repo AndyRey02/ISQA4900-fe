@@ -210,7 +210,7 @@ export class APIService {
       return axios.post(url, credentials);
    }
    getUser() {
-      const url = `${API_URL}/api/getUser/`;
+      const url = `${API_URL}/api/getuser/`;
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.get(url, { headers: headers });
@@ -222,7 +222,7 @@ export class APIService {
       return axios.get(url, { headers: headers });
    }
    getUserFromPK(pk) {
-      const url = `${API_URL}/api/getUserFromPK/${pk}`;
+      const url = `${API_URL}/api/getuserfrompk/${pk}`;
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.get(url, { headers: headers });

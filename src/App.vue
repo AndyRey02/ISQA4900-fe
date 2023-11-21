@@ -11,7 +11,7 @@
          <router-link :to="{name: 'Contact'}">Contact Us</router-link> |
      </li>
      <li class="nav-item">
-         <router-link :to="{name: 'GroupList'}">Work Groups</router-link> |
+         <router-link :to="{name: 'MyGroups'}">Work Groups</router-link> |
      </li>
      <li class="nav-item">
          <router-link :to="{name: 'MyLists'}">Project Lists</router-link> |

@@ -95,7 +95,7 @@ import { APIService } from '../http/APIService';
 const apiService = new APIService();
 
 export default {
-    name: "MyProfile",
+    name: "MyList",
     data: () => ({
         board: {},
         tasks: [],

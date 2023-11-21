@@ -1,30 +1,24 @@
 <template>
     <body>
         <div class="container mt-5">
-            <h3>My Lists</h3>
+            <h3>My Groups</h3>
             <!-- Non-Mobile device view -->
             <div class="container">
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="card-deck d-flex flex-wrap">
-                            <div class="card ml-3 col-md-4" v-for="board in boards" :key="board.pk">
-                                <div class="card-body" @click="navToList(board)">
-                                    <img v-if="board.list_image" :src="board.list_image" alt="Circular Image"
-                                        style="object-fit: cover;" class="img rounded" width="100" height="100">
-                                    <h5 class="card-title">List Title</h5>
-                                    <p class="card-text">{{ board.title }}</p>
+                            <div class="card ml-3 col-md-4" v-for="group in groups" :key="group.pk">
+                                <div class="card-body">
+                                    <h5 class="card-title">Group Title</h5>
+                                    <p class="card-text">{{ group.title }}</p>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">Board PK</h5>
-                                    <p class="card-text">{{ board.pk }}</p>
+                                    <h5 class="card-title">Users</h5>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" disabled>{{ group.users }}</textarea>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">Description</h5>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" disabled>{{ board.description }}</textarea>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Notes</h5>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" disabled>{{ board.notes }}</textarea>
+                                    <h5 class="card-title">Lists</h5>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" disabled>{{ group.lists }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -40,9 +34,15 @@ import { APIService } from '../http/APIService';
 const apiService = new APIService();
 
 export default {
-    name: "MyProfile",
+    name: "MyGroups",
     data: () => ({
+        groups: [],
+        group: {},
+        users: [],
+        user: {},
         boards: [],
+        board: {},
+        assignedUsernames: {},
         validUserName: "Guest",
         profileSize: 0,
         showMsg: '',
@@ -54,7 +54,7 @@ export default {
         this.authenticated = localStorage.getItem("isAuthenticated");
         this.validUserName = localStorage.getItem("username");
         this.userID = Number(localStorage.getItem("userID"));
-        this.getMyBoards();
+        this.getMyGroups();
         this.getUser();
         this.showMessages();
     },
@@ -78,11 +78,11 @@ export default {
                 this.showMsg = this.$route.params.msg;
             }
         },
-        getMyBoards() {
-            apiService.getMyBoards().then(response => {
-                this.boards = response.data.data;
-                this.boardSize = this.board.length;
-                if (this.boardSize != 0) {
+        getMyGroups() {
+            apiService.getMyGroups().then(response => {
+                this.groups = response.data.data;
+                this.groupSize = this.group.length;
+                if (this.groupSize != 0) {
                     if (localStorage.getItem("isAuthenticated")
                         && JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
                         this.validUserName = JSON.parse(localStorage.getItem("log_user"));
@@ -95,10 +95,12 @@ export default {
                 }
             });
         },
-        navToList(board) {
-            router.push('/list/' + board.pk);
+        getListsFromGroup(grouppk) {
+            apiService.getListFromGroupPK(grouppk).then(response =>
+                this.boards = response.data.data
+            ).catch(error => console.error(error))
         },
-    }
+    },
 };
 </script>
 <style>

@@ -89,6 +89,12 @@ export class APIService {
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.get(url, { headers: headers });
    }
+   getMyGroups() {
+      const url = `${API_URL}/api/mygroups/`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = { Authorization: `JWT ${jwtToken}` };
+      return axios.get(url, { headers: headers });
+   }
    addNewGroup(group) {
       const url = `${API_URL}/api/groups/`;
       let jwtToken = localStorage.getItem('access');
@@ -217,6 +223,24 @@ export class APIService {
    }
    getAllUsers() {
       const url = `${API_URL}/api/getAllUsers/`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = { Authorization: `JWT ${jwtToken}` };
+      return axios.get(url, { headers: headers });
+   }
+   getUserFromPK(pk) {
+      const url = `${API_URL}/api/getuserfrompk/${pk}`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = { Authorization: `JWT ${jwtToken}` };
+      return axios.get(url, { headers: headers });
+   }
+   getListsFromGroupPK(pk) {
+      const url = `${API_URL}/api/getlistsfromgroup/${pk}`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = { Authorization: `JWT ${jwtToken}` };
+      return axios.get(url, { headers: headers });
+   }
+   getUsersFromGroupPK(pk) {
+      const url = `${API_URL}/api/getusersfromgroup/${pk}`;
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.get(url, { headers: headers });

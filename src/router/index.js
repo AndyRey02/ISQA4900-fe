@@ -4,6 +4,7 @@ import Home2 from '@/components/Home2.vue'
 import Auth from '@/components/Auth.vue'
 import Register from '@/components/Register'
 import GroupList from '@/components/GroupList'
+import MyGroups from '@/components/MyGroups'
 import GroupCreate from '@/components/GroupCreate'
 import ProfileList from '@/components/ProfileList'
 import ProfileCreate from '@/components/ProfileCreate'
@@ -62,6 +63,11 @@ const routes = [
     path: '/group-list',
     name: 'GroupList',
     component: GroupList
+  },
+  {
+    path: '/mygroups',
+    name: 'MyGroups',
+    component: MyGroups
   },
   {
     path: '/group-list/:msg',

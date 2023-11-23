@@ -15,31 +15,30 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">Users</h5>
-                                    <ul class="text-center d-flex flex-column justify-content-center align-items-center">
-                                        <div v-for="user in group.userinfo" :key="user.pk" @click="navToProfile(user.profile.pk)">
-                                            <div v-if="user.profile">
-                                                <li >{{ user.username }}</li>
-                                                <img :src="user.profile.image" alt="Circular Image" style="object-fit: cover;" class="img rounded-circle" width="50"
-                                                height="50"/>
-                                            </div>
-                                            <div v-else>
-                                                <li>{{ user.username }}</li>
-                                            </div>
-                                    </div>
-                                    </ul>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Lists</h5>
-                                    <ul class="text-center d-flex flex-column justify-content-center align-items-center">
-                                        <div v-for="list in group.listinfo" :key="list.pk" @click="navToList(list.pk)">
-                                        <li>{{ list.title }}</li>
-                                        <div v-if="list.list_image">
-                                            <img :src="list.list_image" alt="Circular Image" style="object-fit: cover;" class="img rounded" width="50"
-                                            height="50"/>
+                                    <div class="row">
+                                      <div v-for="(user, index) in group.userinfo" :key="user.pk" class="col-6" @click="navToProfile(user.profile?.pk)">
+                                        <div v-if="user.profile">
+                                          <p>{{ user.username }}</p>
+                                          <img :src="user.profile.image" alt="Circular Image" style="object-fit: cover;" class="img rounded-circle mb-5" width="50" height="50" />
                                         </div>
+                                        <div v-else>
+                                          <p>{{ user.username }}</p>
+                                        </div>
+                                      </div>
                                     </div>
-                                    </ul>
-                                </div>
+                                  </div>
+                                  
+                                  <div class="card-body">
+                                    <h5 class="card-title">Lists</h5>
+                                    <div class="row">
+                                      <div v-for="(list, index) in group.listinfo" :key="list.pk" class="col-6" @click="navToList(list.pk)">
+                                        <p>{{ list.title }}</p>
+                                        <div v-if="list.list_image">
+                                          <img :src="list.list_image" alt="Circular Image" style="object-fit: cover;" class="img rounded mb-5" width="50" height="50" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                                 <div style="margin-top:20px; margin-bottom:20px">
                                     <button type="button" class="btn btn-primary" @click="editGroup(group.pk)">Update group</button>
                                 </div>
@@ -112,7 +111,7 @@ export default {
             router.push('/group-create/');
         },
         editGroup(pk) {
-            router.push('/group-edit/' + pk);
+            router.push('/group-create/' + pk);
         },
         navToProfile(pk) {
             router.push('/profile/' + pk);

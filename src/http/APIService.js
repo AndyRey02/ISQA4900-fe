@@ -222,7 +222,7 @@ export class APIService {
       return axios.get(url, { headers: headers });
    }
    getAllUsers() {
-      const url = `${API_URL}/api/getAllUsers/`;
+      const url = `${API_URL}/api/getallusers/`;
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.get(url, { headers: headers });

@@ -26,8 +26,9 @@
                 <div v-if="tasks.length > 0">
                     <div class="row">
                         <div class="col-md-6">
+                            <div class="row">
                             <h4 class="mb-5">Incomplete Tasks</h4>
-                            <div class="card mb-3" v-for="task in incompleteTasks" :key="task.pk"
+                            <div class="card mb-3 col-md-6" v-for="task in incompleteTasks" :key="task.pk"
                                 v-if="!task?.completion_status" style="background-color: rgba(220,20,60,0.1)">
                                 <div v-if="!task.completion_status">
                                     <div class="card-body" @click="navToTask(task.pk)">
@@ -48,11 +49,13 @@
                                     </div>
                                 </div>
                             </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
+                            <div class="row">
                             <h4 class="mb-5">Completed Tasks</h4>
-                            <div class="card mb-3" v-for="task in completeTasks" :key="task.pk">
-                                <div v-if="task.completion_status === true" style="background-color: rgba(20,220,60,0.1)">
+                            <div class="card mb-3 col-md-6" v-for="task in completeTasks" :key="task.pk" style="background-color: rgba(20,220,60,0.1)">
+                                <div v-if="task.completion_status === true">
                                     <div class="card-body" @click="navToTask(task.pk)">
                                         <h5 class="card-title">Task Title</h5>
                                         <p class="card-text">{{ task.title }}</p>
@@ -70,6 +73,7 @@
                                         <p class="card-text">{{ assignedUsernamesComputed[task.user] || 'Loading...' }}</p>
                                     </div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>

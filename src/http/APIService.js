@@ -233,6 +233,12 @@ export class APIService {
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.get(url, { headers: headers });
    }
+   getProfileFromUserPK(pk) {
+      const url = `${API_URL}/api/getprofilefromuser/${pk}`;
+      let jwtToken = localStorage.getItem('access');
+      const headers = { Authorization: `JWT ${jwtToken}` };
+      return axios.get(url, { headers: headers });
+   }
    getListsFromGroupPK(pk) {
       const url = `${API_URL}/api/getlistsfromgroup/${pk}`;
       let jwtToken = localStorage.getItem('access');

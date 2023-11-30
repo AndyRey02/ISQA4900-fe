@@ -4,9 +4,6 @@
     <li class="nav-item">
          <router-link to="/">HoneyDo</router-link>  |
      </li>
-    <li class="nav-item">
-         <router-link :to="{name: 'Home2'}">Home2</router-link> |
-     </li>
      <li class="nav-item">
          <router-link :to="{name: 'Contact'}">Contact Us</router-link> |
      </li>

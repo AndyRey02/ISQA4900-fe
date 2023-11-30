@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/components/Home.vue'
-import Home2 from '@/components/Home2.vue'
 import Auth from '@/components/Auth.vue'
 import Register from '@/components/Register'
 import GroupList from '@/components/GroupList'
@@ -23,11 +22,6 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
-  },
-  {
-    path: '/',
-    name: 'Home2',
-    component: Home2
   },
   {
     path: '/profile-list',

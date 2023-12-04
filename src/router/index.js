@@ -11,6 +11,7 @@ import MyProfile from '@/components/MyProfile'
 import Profile from '@/components/Profile'
 import TaskList from '@/components/TaskList'
 import TaskCreate from '@/components/TaskCreate'
+import MyTask from '@/components/MyTask'
 import MyLists from '@/components/MyLists'
 import List from '@/components/List'
 import ListList from '@/components/ListList'
@@ -77,6 +78,11 @@ const routes = [
     path: '/group-create/:pk',
     name: 'GroupUpdate',
     component: GroupCreate
+  },
+  {
+    path: '/MyTasks/:pk',
+    name: 'MyTasks',
+    component: MyTask
   },
   {
     path: '/task-list',

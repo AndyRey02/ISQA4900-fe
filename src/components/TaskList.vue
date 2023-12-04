@@ -84,7 +84,8 @@
         </thead>
         <tbody>
         <tr v-for="task in tasks" v-bind:key="task">
-          <th scope="row">{{ task.pk }}</th>
+          <th @click="getMyTasks(task)" scope="row">
+            {{ task.pk }}</th>
           <td>{{ task.title }}</td>
           <td>{{ task.description }}</td>
           <td>{{ task.completion_status }}</td>
@@ -128,13 +129,10 @@ export default {
     isMobile: false,
     authenticated: false,
     headers: [
-      {text: 'Task PK', sortable: false, align: 'left',},
       {text: 'Title', sortable: false, align: 'left',},
+      {text: 'Task Pk', sortable: false, align: 'left',},
       {text: 'Description', sortable: false, align: 'left',},
-      {text: 'Completion Status', sortable: false, align: 'left',},
-      {text: 'Due Date', sortable: false, align: 'left',},
-      {text: 'User', sortable: false, align: 'left',},
-      {text: 'List', sortable: false, align: 'left',},
+      {text: 'Notes', sortable: false, align: 'left',},
       {text: 'Update', sortable: false, align: 'left',},
       {text: 'Delete', sortable: false, align: 'left',}
     ],
@@ -170,6 +168,9 @@ export default {
           router.push("/auth");
         }
       });
+    },
+    getMyTasks(task){
+      router.push(`/MyTasks/${task.pk}`);
     },
     addNewTask() {
       if (localStorage.getItem("isAuthenticated")

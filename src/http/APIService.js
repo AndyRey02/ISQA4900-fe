@@ -29,6 +29,12 @@ export class APIService {
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.post(url, task, { headers: headers });
    }
+   getTaskDetails() {
+    const url = `${API_URL}/api/MyTasks`;
+    let jwtToken = localStorage.getItem('access');
+    const headers = { Authorization: `JWT ${jwtToken}` };
+    return axios.get(url, { headers: headers });
+   }
    updateTask(task) {
       const url = `${API_URL}/api/tasks/${task.pk}`;
       let jwtToken = localStorage.getItem('access');

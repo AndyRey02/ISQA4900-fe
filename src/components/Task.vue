@@ -35,7 +35,7 @@ import {APIService} from '../http/APIService';
 const apiService = new APIService();
 
 export default {
-  name: "MyTask",
+  name: "Task",
   data() {
     return {
       tasks: [],

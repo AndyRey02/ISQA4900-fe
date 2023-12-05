@@ -114,7 +114,9 @@ export default {
             router.push('/group-create/' + pk);
         },
         navToProfile(pk) {
+            if (pk) {
             router.push('/profile/' + pk);
+            }
         },
         getMyGroups() {
             apiService.getMyGroups().then(response => {

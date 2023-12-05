@@ -170,7 +170,7 @@ export default {
       });
     },
     getMyTasks(task){
-      router.push(`/MyTasks/${task.pk}`);
+      router.push(`/task/${task.pk}`);
     },
     getTasksFromListPK() {
             apiService.getTasksFromListPK(this.$route.params.pk).then(response => {

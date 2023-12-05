@@ -155,7 +155,7 @@ export default {
       }
     },
     getTasks() {
-      apiService.getTaskList().then(response => {
+      apiService.getMyTasks().then(response => {
         this.tasks = response.data.data;
         this.taskSize = this.tasks.length;
         if (localStorage.getItem("isAuthenticated")

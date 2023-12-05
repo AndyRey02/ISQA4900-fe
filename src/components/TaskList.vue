@@ -52,10 +52,10 @@
             <p><b>Due Date:</b> {{ task.due_date }}</p>
             <p><b>Notes:</b> {{ task.notes }}</p>
             <div class="btn-group">
-              <button @click="updateTask(task)" style="background-color: transparent; padding: 5;">
+              <button @click="updateTask(task)" style="background-color: transparent; padding:;">
                 <font-awesome-icon icon="pencil"/>
               </button>
-              <button @click="deleteTask(task)" style="background-color: transparent; padding: 5;">
+              <button @click="deleteTask(task)" style="background-color: transparent; padding:;">
                 <font-awesome-icon icon="trash"/>
               </button>
             </div>
@@ -70,13 +70,12 @@
              :headers="headers">
         <thead>
         <tr>
-          <th scope="col">Task PK</th>
           <th scope="col">Title</th>
           <th scope="col">Description</th>
           <th scope="col">Status</th>
           <th scope="col">Due Date</th>
           <th scope="col">Notes</th>
-          <th scope="col">User</th>
+          <th scope="col">Assignee</th>
           <th scope="col">List</th>
           <th scope="col">Update</th>
           <th scope="col">Delete</th>
@@ -85,13 +84,12 @@
         <tbody>
         <tr v-for="task in tasks" v-bind:key="task">
           <th @click="getMyTasks(task)" scope="row">
-            {{ task.pk }}</th>
-          <td>{{ task.title }}</td>
+            {{ task.title }}</th>
           <td>{{ task.description }}</td>
           <td>{{ task.completion_status }}</td>
           <td>{{ task.due_date }}</td>
           <td>{{ task.notes }}</td>
-          <td>{{ task.user }}</td>
+          <td>{{ assignedUsernamesComputed[task.user] || 'Loading...' }}</td>
           <td>{{ task.list }}</td>
           <td v-if="this.authenticated === 'true'" @click="updateTask(task)">
             <button style="background-color: transparent; padding: 0;">
@@ -123,6 +121,8 @@ export default {
   name: "TaskList",
   data: () => ({
     tasks: [],
+    task: {},
+    assignedUsernames: {},
     validUserName: "Guest",
     taskSize: 0,
     showMsg: '',
@@ -172,6 +172,27 @@ export default {
     getMyTasks(task){
       router.push(`/MyTasks/${task.pk}`);
     },
+    getTasksFromListPK() {
+            apiService.getTasksFromListPK(this.$route.params.pk).then(response => {
+                this.tasks = response.data.data;
+            }).catch(error => {
+                if (error.response?.status === 401) {
+                    localStorage.clear();
+                    router.push("/auth");
+                }
+            });
+        },
+        async getUserFromPK(userId) {
+            try {
+                const response = await apiService.getUserFromPK(userId);
+                const username = response.data.username;
+                this.assignedUsernames[userId] = username;
+                return username;
+            } catch (error) {
+                console.error(error);
+                return 'Unknown User';
+            }
+        },
     addNewTask() {
       if (localStorage.getItem("isAuthenticated")
           && JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
@@ -198,7 +219,24 @@ export default {
         });
       }
     }
-  }
+  },
+  computed: {
+        completeTasks: function () {
+            return this.tasks.filter(task => task.completion_status === true)
+        },
+        incompleteTasks: function () {
+            return this.tasks.filter(task => task.completion_status === false)
+        },
+        assignedUsernamesComputed() {
+            return this.tasks.reduce((acc, task) => {
+                this.getUserFromPK(task.user).then(username => {
+                    this.assignedUsername = username.username;
+                });
+                acc[task.user] = this.assignedUsernames[task.user] || 'Loading...';
+                return acc;
+            }, {});
+        },
+    }
 };
 </script>
 <style>

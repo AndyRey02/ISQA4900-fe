@@ -6,8 +6,8 @@
             <div class="container">
                 <div class="row mb-3">
                     <div class="col-md-12">
-                        <div class="card-deck d-flex flex-wrap">
-                            <div class="card ml-3 col-md-4" v-for="board in boards" :key="board.pk">
+                        <div class="card-deck d-flex flex-wrap justify-content-center">
+                            <div class="card ml-3 col-md-3"  style="margin:5px" v-for="board in boards" :key="board.pk">
                                 <div class="card-body" @click="navToList(board)">
                                     <img v-if="board.list_image" :src="board.list_image" alt="Circular Image"
                                         style="object-fit: cover;" class="img rounded" width="100" height="100">
@@ -29,6 +29,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div style="margin-top:20px">
+                    <button type="button" class="btn btn-success" @click="addList()">Add list</button>
                 </div>
             </div>
         </div>
@@ -66,6 +69,9 @@ export default {
                     localStorage.setItem("username", this.validUserName)
                 }
             }).catch(error => {console.error(error)})
+        },
+        addList() {
+            router.push("/list-create")
         },
         onResize() {
             if (window.innerWidth > 600)

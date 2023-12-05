@@ -20,8 +20,8 @@
           <textarea class="form-control" id="notes" rows="3" disabled>{{ Task.notes }}</textarea>
         </div>
         <div v-if="Task" class="card-body">
-          <button @click="updateTask" class="btn btn-primary">Edit Task</button>
-          <button @click="deleteTask" class="btn btn-danger">Delete Task</button>
+          <button @click="updateTask(Task)" class="btn btn-primary">Edit Task</button>
+          <button @click="deleteTask(Task)" class="btn btn-danger">Delete Task</button>
         </div>
       </div>
     </div>

@@ -5,10 +5,10 @@
 
             <!-- Non-Mobile device view -->
             <div class="container">
-                <div class="row mb-3">
+                <div class="row mb-6">
                     <div class="col-md-12">
-                        <div class="card-deck d-flex flex-wrap">
-                            <div v-for="group in groups" :key="group.pk" class="card ml-3 col-md-4">
+                        <div class="card-deck d-flex flex-wrap justify-content-center">
+                            <div v-for="group in groups" :key="group.pk" class="card ml-3 col-md-3" style="margin:5px">
                                 <div class="card-body">
                                     <h5 class="card-title">Group Title</h5>
                                     <p class="card-text">{{ group.title }}</p>
@@ -107,7 +107,7 @@ export default {
         navToList(pk) {
             router.push('/list/' + pk);
         },
-        addGroup(pk) {
+        addGroup() {
             router.push('/group-create/');
         },
         editGroup(pk) {

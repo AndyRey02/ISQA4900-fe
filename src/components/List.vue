@@ -26,10 +26,10 @@
                 <div v-if="tasks.length > 0">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="row">
+                            <div class="row justify-content-center">
                             <h4 class="mb-5">Incomplete Tasks</h4>
-                            <div class="card mb-3 col-md-6" v-for="task in incompleteTasks" :key="task.pk"
-                                v-if="!task?.completion_status" style="background-color: rgba(220,20,60,0.1)">
+                            <div class="card mb-3 col-md-5" v-for="task in incompleteTasks" :key="task.pk"
+                                v-if="!task?.completion_status" style="background-color: rgba(220,20,60,0.1); margin:5px">
                                 <div v-if="!task.completion_status">
                                     <div class="card-body" @click="navToTask(task.pk)">
                                         <h5 class="card-title">Task Title</h5>
@@ -52,9 +52,9 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="row">
+                            <div class="row justify-content-center">
                             <h4 class="mb-5">Completed Tasks</h4>
-                            <div class="card mb-3 col-md-6" v-for="task in completeTasks" :key="task.pk" style="background-color: rgba(20,220,60,0.1)">
+                            <div class="card mb-3 col-md-5" v-for="task in completeTasks" :key="task.pk" style="background-color: rgba(20,220,60,0.1); margin:5px">
                                 <div v-if="task.completion_status === true">
                                     <div class="card-body" @click="navToTask(task.pk)">
                                         <h5 class="card-title">Task Title</h5>

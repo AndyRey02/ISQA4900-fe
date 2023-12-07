@@ -83,7 +83,7 @@
         </thead>
         <tbody>
         <tr v-for="task in tasks" v-bind:key="task">
-          <th @click="getMyTasks(task.pk)" scope="row">
+          <th @click="getMyTasks(task)" scope="row">
             {{ task.title }}
           </th>
           <td>{{ task.description }}</td>

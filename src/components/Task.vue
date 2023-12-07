@@ -52,7 +52,7 @@ export default {
   name: "Task",
   data() {
     return {
-      tasks: [],
+      Task: {},
       assignedUsernames: {},
       Task: null,
       validUserName: "Guest",
@@ -112,19 +112,10 @@ export default {
         });
       }
     },
-    getTaskDetails(taskPK) {
-      apiService.getTaskDetails(taskPK).then(response => {
-        this.tasks = response.data.data;
-        for (let i = 0; i < this.tasks.length; i++) {
-          if (this.tasks[i].pk === taskPK) {
-            this.Task = this.tasks[i];
-            console.log('Selected Task:', this.Task);
-            break;
-          }
-          this.Task = this.tasks[i]
-          console.log('Found Task:', this.tasks[i]);
-          console.log('taskPK', this.taskPK);
-        }
+    getTaskDetails() {
+      apiService.getTask(this.$route.params.pk).then(response => {
+        this.Task = response.data;
+        console.log(response.data);
       }).catch(error => {
         if (error.response?.status === 401) {
           localStorage.clear();

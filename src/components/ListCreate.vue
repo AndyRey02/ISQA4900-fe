@@ -18,12 +18,20 @@
                 <form ref="form">
                   <div class="container-fluid">
                     <div class="form-group row justify-content-around py-2">
+                      <label class="col-5">List Pk </label>
+                      <div class="col col-7">
+                        <input v-model="lists.pk" type="text"
+                               class="form-control-sm form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row justify-content-around py-2">
                       <label class="col-5">Title</label>
                       <div class="col col-7">
                         <input v-model="lists.title" type="text"
                                class="form-control-sm form-control">
                       </div>
                     </div>
+
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-5">Description</label>
                       <div class="col col-7">
@@ -31,7 +39,6 @@
                                type="text" class="form-control-sm form-control">
                       </div>
                     </div>
-
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-5">Notes</label>
                       <div class="col col-7">
@@ -41,9 +48,17 @@
                     </div>
 
                     <div class="form-group row justify-content-around py-2">
-                      <label class="col-5">Category</label>
+                      <label class="col-5">Group</label>
                       <div class="col col-7">
-                        <input v-model="lists.category"
+                        <input v-model="lists.group_set"
+                               type="text" class="form-control-sm form-control">
+                      </div>
+                    </div>
+
+                    <div class="form-group row justify-content-around py-2">
+                      <label class="col-5">Task Set</label>
+                      <div class="col col-7">
+                        <input v-model="lists.task_set"
                                type="text" class="form-control-sm form-control">
                       </div>
                     </div>
@@ -93,6 +108,7 @@ export default {
     return {
       showError: false,
       lists: {},
+      group:{},
       pageTitle: "Add New List",
       isUpdate: false,
       showMsg: '',
@@ -100,11 +116,20 @@ export default {
   },
   methods: {
     createList() {
+      if (typeof this.lists.group_set == 'string') {
+      this.lists.group_set = this.lists.group_set.split(",")
+      }
+      if (typeof this.lists.category == 'string') {
+        this.lists.category = this.lists.category.split(",")
+      }
+       if (typeof this.lists.task_set == 'string') {
+        this.lists.task_set = this.lists.task_set.split(",")
+      }
       apiService.addNewList(this.lists).then(response => {
         if (response.status === 201) {
           this.lists = response.data;
           this.showMsg = "";
-          router.push('/list-list/new');
+          router.push('/mylists');
         } else {
           this.showMsg = "error";
         }
@@ -113,13 +138,22 @@ export default {
       });
     },
     cancelOperation() {
-      router.push("/list-list");
+      router.push("/mylists");
     },
     updateList() {
+      if (typeof this.lists.group_set == 'string') {
+      this.lists.group_set = this.lists.group_set.split(",")
+      }
+      if (typeof this.lists.category == 'string') {
+        this.lists.category = this.lists.category.split(",")
+      }
+       if (typeof this.lists.task_set == 'string') {
+        this.lists.task_set = this.lists.task_set.split(",")
+      }
       apiService.updateList(this.list).then(response => {
         if (response.status === 200) {
           this.list = response.data;
-          router.push('/list-list/update');
+          router.push('/mylists');
         } else {
           this.showMsg = "error";
         }

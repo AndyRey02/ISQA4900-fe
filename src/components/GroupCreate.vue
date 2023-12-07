@@ -87,7 +87,7 @@ export default {
         if (response.status === 201) {
           this.group = response.data;
           this.showMsg = "";
-          router.push('/group-list/new');
+          router.push('/mygroups');
         } else {
           this.showMsg = "error";
         }

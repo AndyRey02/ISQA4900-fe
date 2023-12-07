@@ -25,6 +25,13 @@
                       </div>
                     </div>
                     <div class="form-group row justify-content-around py-2">
+                      <label class="col-4">Status</label>
+                      <div class="col col-8">
+                        <input type="checkbox" v-model="task.completion_status" id="taskCheckbox">
+                        <label for="taskCheckbox">Task Completed</label>
+                      </div>
+                    </div>
+                    <div class="form-group row justify-content-around py-2">
                       <label class="col-4">Description</label>
                       <div class="col col-8">
                         <input v-model="task.description" type="text" class="form-control-sm form-control">

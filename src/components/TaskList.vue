@@ -83,10 +83,11 @@
         </thead>
         <tbody>
         <tr v-for="task in tasks" v-bind:key="task">
-          <th @click="getMyTasks(task)" scope="row">
-            {{ task.title }}</th>
+          <th @click="getMyTasks(task.pk)" scope="row">
+            {{ task.title }}
+          </th>
           <td>{{ task.description }}</td>
-          <td>{{ task.completion_status }}</td>
+          <td>{{ task.completion_status ? 'Complete' : 'Incomplete' }}</td>
           <td>{{ task.due_date }}</td>
           <td>{{ task.notes }}</td>
           <td>{{ assignedUsernamesComputed[task.user] || 'Loading...' }}</td>
@@ -113,6 +114,7 @@
 </template>
 <script>
 import router from '../router';
+import moment from 'moment';
 import {APIService} from '../http/APIService';
 
 const apiService = new APIService();
@@ -140,6 +142,7 @@ export default {
   mounted() {
     this.authenticated = localStorage.getItem("isAuthenticated")
     this.getTasks();
+    this.getTaskDate();
     this.showMessages();
   },
   methods: {
@@ -169,30 +172,47 @@ export default {
         }
       });
     },
-    getMyTasks(task){
+    async getTaskDate() {
+      try {
+        const response = await apiService.getMyTasks();
+        this.tasks = response.data.data.map(task => {
+          return {
+            ...task,
+            due_date: moment(task.due_date).format('DD/MM/YYYY')
+          };
+        });
+      } catch (error) {
+        console.error(error);
+        if (error.response?.status === 401) {
+          localStorage.clear();
+          router.push("/auth");
+        }
+      }
+    },
+    getMyTasks(task) {
       router.push(`/task/${task.pk}`);
     },
     getTasksFromListPK() {
-            apiService.getTasksFromListPK(this.$route.params.pk).then(response => {
-                this.tasks = response.data.data;
-            }).catch(error => {
-                if (error.response?.status === 401) {
-                    localStorage.clear();
-                    router.push("/auth");
-                }
-            });
-        },
-        async getUserFromPK(userId) {
-            try {
-                const response = await apiService.getUserFromPK(userId);
-                const username = response.data.username;
-                this.assignedUsernames[userId] = username;
-                return username;
-            } catch (error) {
-                console.error(error);
-                return 'Unknown User';
-            }
-        },
+      apiService.getTasksFromListPK(this.$route.params.pk).then(response => {
+        this.tasks = response.data.data;
+      }).catch(error => {
+        if (error.response?.status === 401) {
+          localStorage.clear();
+          router.push("/auth");
+        }
+      });
+    },
+    async getUserFromPK(userId) {
+      try {
+        const response = await apiService.getUserFromPK(userId);
+        const username = response.data.username;
+        this.assignedUsernames[userId] = username;
+        return username;
+      } catch (error) {
+        console.error(error);
+        return 'Unknown User';
+      }
+    },
     addNewTask() {
       if (localStorage.getItem("isAuthenticated")
           && JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
@@ -212,31 +232,31 @@ export default {
             this.getTasks()
           }
         }).catch(error => {
-            if (error.response.status === 401) {
-              localStorage.clear();
-              router.push("/auth");
-            }
+          if (error.response.status === 401) {
+            localStorage.clear();
+            router.push("/auth");
+          }
         });
       }
     }
   },
   computed: {
-        completeTasks: function () {
-            return this.tasks.filter(task => task.completion_status === true)
-        },
-        incompleteTasks: function () {
-            return this.tasks.filter(task => task.completion_status === false)
-        },
-        assignedUsernamesComputed() {
-            return this.tasks.reduce((acc, task) => {
-                this.getUserFromPK(task.user).then(username => {
-                    this.assignedUsername = username.username;
-                });
-                acc[task.user] = this.assignedUsernames[task.user] || 'Loading...';
-                return acc;
-            }, {});
-        },
-    }
+    completeTasks: function () {
+      return this.tasks.filter(task => task.completion_status === true)
+    },
+    incompleteTasks: function () {
+      return this.tasks.filter(task => task.completion_status === false)
+    },
+    assignedUsernamesComputed() {
+      return this.tasks.reduce((acc, task) => {
+        this.getUserFromPK(task.user).then(username => {
+          this.assignedUsername = username.username;
+        });
+        acc[task.user] = this.assignedUsernames[task.user] || 'Loading...';
+        return acc;
+      }, {});
+    },
+  }
 };
 </script>
 <style>

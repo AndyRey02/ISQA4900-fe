@@ -35,6 +35,7 @@
         <div v-if="Task" class="card-body">
           <button @click="updateTask(Task)" class="btn btn-primary">Edit Task</button>
           <button @click="deleteTask(Task)" class="btn btn-danger">Delete Task</button>
+          <button @click="returnbutton()" class="btn btn-primary">Return</button>
         </div>
       </div>
     </div>
@@ -54,7 +55,6 @@ export default {
     return {
       Task: {},
       assignedUsernames: {},
-      Task: null,
       validUserName: "Guest",
       profileSize: 0,
       showMsg: '',
@@ -164,25 +164,30 @@ export default {
         return 'Unknown User';
       }
     },
+    returnbutton() {
+      router.push('/task-list');
+    },
   },
   computed: {
-    completeTasks: function () {
-      return this.tasks.filter(task => task.completion_status === true)
-    },
-    incompleteTasks: function () {
-      return this.tasks.filter(task => task.completion_status === false)
-    },
-    assignedUsernamesComputed() {
-      return this.tasks.reduce((acc, task) => {
-        this.getUserFromPK(task.user).then(username => {
-          this.assignedUsername = username.username;
-        });
-        acc[task.user] = this.assignedUsernames[task.user] || 'Loading...';
-        return acc;
-      }, {});
+    async assignedUsernamesComputed() {
+      const userNames = {};
+      if (this.tasks && this.tasks.length > 0) {
+        await Promise.all(
+            this.tasks.map(async (task) => {
+              try {
+                const username = await this.getUserFromPK(task.user);
+                userNames[task.user] = username.username;
+              } catch (error) {
+                userNames[task.user] = 'Unknown User';
+                console.error(error);
+              }
+            })
+        );
+      }
+      return userNames;
     },
   }
-};
+} 
 </script>
 
 <style>

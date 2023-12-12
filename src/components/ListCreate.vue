@@ -20,14 +20,14 @@
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-5">List Pk </label>
                       <div class="col col-7">
-                        <input v-model="lists.pk" type="text"
+                        <input v-model="list.pk" type="text"
                                class="form-control-sm form-control">
                       </div>
                     </div>
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-5">Title</label>
                       <div class="col col-7">
-                        <input v-model="lists.title" type="text"
+                        <input v-model="list.title" type="text"
                                class="form-control-sm form-control">
                       </div>
                     </div>
@@ -35,22 +35,22 @@
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-5">Description</label>
                       <div class="col col-7">
-                        <input v-model="lists.description"
+                        <input v-model="list.description"
                                type="text" class="form-control-sm form-control">
                       </div>
                     </div>
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-5">Notes</label>
                       <div class="col col-7">
-                        <input v-model="lists.notes"
+                        <input v-model="list.notes"
                                type="text" class="form-control-sm form-control">
                       </div>
                     </div>
 
                     <div class="form-group row justify-content-around py-2">
-                      <label class="col-5">Group</label>
+                      <label class="col-5">Group Set</label>
                       <div class="col col-7">
-                        <input v-model="lists.group_set"
+                        <input v-model="list.group_set"
                                type="text" class="form-control-sm form-control">
                       </div>
                     </div>
@@ -58,11 +58,16 @@
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-5">Task Set</label>
                       <div class="col col-7">
-                        <input v-model="lists.task_set"
+                        <input v-model="list.task_set"
                                type="text" class="form-control-sm form-control">
                       </div>
                     </div>
-
+                    <div class="form-group row justify-content-around py-2">
+                      <label class="col-4">Image</label>
+                      <div class="col col-8">
+                        <input type="file" @change="onFileSelected">
+                      </div>
+                    </div>
                     <div class="row justify-content-around">
                       <div v-if="!isUpdate" type="button" class="btn
 btn-primary col-4" @click="createList">Save
@@ -107,27 +112,31 @@ export default {
   data() {
     return {
       showError: false,
-      lists: {},
+      list: {},
       group:{},
       pageTitle: "Add New List",
       isUpdate: false,
       showMsg: '',
+      selectedFile: null,
     };
   },
   methods: {
+    onFileSelected(event) {
+      this.selectedFile = event.target.files[0]
+    },
     createList() {
-      if (typeof this.lists.group_set == 'string') {
-      this.lists.group_set = this.lists.group_set.split(",")
+      if (typeof this.list.group_set == 'string') {
+      this.list.group_set = this.list.group_set.split(",")
       }
-      if (typeof this.lists.category == 'string') {
-        this.lists.category = this.lists.category.split(",")
+      if (typeof this.list.category == 'string') {
+        this.list.category = this.list.category.split(",")
       }
-       if (typeof this.lists.task_set == 'string') {
-        this.lists.task_set = this.lists.task_set.split(",")
+      if (typeof this.list.task_set == 'string') {
+        this.list.task_set = this.list.task_set.split(",")
       }
-      apiService.addNewList(this.lists).then(response => {
+      apiService.addNewList(this.list, this.selectedFile).then(response => {
         if (response.status === 201) {
-          this.lists = response.data;
+          this.list = response.data;
           this.showMsg = "";
           router.push('/mylists');
         } else {
@@ -138,19 +147,19 @@ export default {
       });
     },
     cancelOperation() {
-      router.push("/mylists");
+      router.push("/mylist");
     },
     updateList() {
-      if (typeof this.lists.group_set == 'string') {
-      this.lists.group_set = this.lists.group_set.split(",")
+      if (typeof this.list.group_set == 'string') {
+      this.list.group_set = this.list.group_set.split(",")
       }
-      if (typeof this.lists.category == 'string') {
-        this.lists.category = this.lists.category.split(",")
+      if (typeof this.list.category == 'string') {
+        this.list.category = this.list.category.split(",")
       }
-       if (typeof this.lists.task_set == 'string') {
-        this.lists.task_set = this.lists.task_set.split(",")
+      if (typeof this.list.task_set == 'string') {
+        this.list.task_set = this.list.task_set.split(",")
       }
-      apiService.updateList(this.list).then(response => {
+      apiService.updateList(this.list, this.selectedFile).then(response => {
         if (response.status === 200) {
           this.list = response.data;
           router.push('/mylists');

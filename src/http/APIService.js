@@ -65,18 +65,67 @@ export class APIService {
       const headers = { Authorization: `JWT ${jwtToken}` };
       return axios.get(url, { headers: headers });
    }
-   addNewList(list) {
+   addNewList(list, image) {
       const url = `${API_URL}/api/lists/`;
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };
-      return axios.post(url, list, { headers: headers });
+      const fd = new FormData();
+      if (image != null) {
+         for (let key in list) {
+           if (list.hasOwnProperty(key)) {
+             if (key === 'task_set' && Array.isArray(list[key])) {
+               for (let taskId of list[key]) {
+                 fd.append('task_set', taskId);
+               }  
+             } 
+             else if (key === 'group_set' && Array.isArray(list[key])) {
+               for (let groupId of list[key]) {
+               fd.append('group_set', groupId);
+               }
+            }
+             else {
+               fd.append(key, list[key]);
+             }
+           }
+         }
+         fd.append('list_image', image)
+         return axios.post(url, fd, { headers: headers });
+      }
+      else {
+         return axios.post(url, list, { headers: headers });
+      };
    }
-   updateList(list) {
+   updateList(list, image) {
       const url = `${API_URL}/api/lists/${list.pk}`;
       let jwtToken = localStorage.getItem('access');
       const headers = { Authorization: `JWT ${jwtToken}` };
-      return axios.put(url, list, { headers: headers });
-   }
+      const fd = new FormData();
+      if (image != null) {
+         for (let key in list) {
+           if (list.hasOwnProperty(key)) {
+             if (key === 'task_set' && Array.isArray(list[key])) {
+               for (let taskId of list[key]) {
+                 fd.append('task_set', taskId);
+               }
+             } 
+             else if (key === 'group_set' && Array.isArray(list[key])) {
+               for (let groupId of list[key]) {
+               fd.append('group_set', groupId);
+               }
+            }
+             else {
+               fd.append(key, list[key]);
+             }
+           }
+         }
+         fd.append('list_image', image);
+         return axios.put(url, fd, { headers: headers });
+       }
+      else {
+         delete list.list_image
+         return axios.put(url, list, { headers: headers });
+      };
+     }
    deleteList(list_pk) {
       const url = `${API_URL}/api/lists/${list_pk}`;
       let jwtToken = localStorage.getItem('access');

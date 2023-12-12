@@ -21,7 +21,7 @@
           <p class="card-text">{{ Task.due_date }}</p>
         </div>
         <div v-if="Task" class="card-body">
-          <h6 class="card-title">From List: {{ Task.list }} Assigned to: {{ assignedUsernamesComputed[Task.user] || 'Loading...' }}</h6>
+          <h6 class="card-title">From List: {{ Task.list }} Assigned to: {{ Task.username || 'Loading...' }}</h6>
         </div>
 
         <div v-if="Task" class="card-body">
@@ -115,7 +115,9 @@ export default {
     getTaskDetails() {
       apiService.getTask(this.$route.params.pk).then(response => {
         this.Task = response.data;
-        console.log(response.data);
+        apiService.getUserFromPK(this.Task.user).then(response =>
+        this.Task.username = response.data.username
+        ).catch(error => console.error(error))
       }).catch(error => {
         if (error.response?.status === 401) {
           localStorage.clear();

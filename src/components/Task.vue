@@ -21,7 +21,8 @@
           <p class="card-text">{{ Task.due_date }}</p>
         </div>
         <div v-if="Task" class="card-body">
-          <h6 class="card-title">From List: {{ Task.list }} Assigned to: {{ Task.username || 'Loading...' }}</h6>
+          <h6 class="card-title" @click="navToList(Task)">From List: {{ Task.list }} </h6>
+          <h6> Assigned to: {{ Task.username || 'Loading...' }}</h6>
         </div>
 
         <div v-if="Task" class="card-body">
@@ -143,7 +144,7 @@ export default {
       }
     },
     navToList(task) {
-      router.push('/list/' + task.pk);
+      router.push('/list/' + task.list);
     },
     getTasksFromListPK() {
       apiService.getTasksFromListPK(this.$route.params.pk).then(response => {

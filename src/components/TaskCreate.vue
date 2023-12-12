@@ -4,8 +4,7 @@
       <div class=" col align-items-center">
         <div class="row align-items-center justify-content-center">
           <div class="col col-12 col-sm-10 col-md-10 col-lg-6">
-            <div class="alert alert-danger shadow" role="alert"
-                 v-if="showMsg === 'error'">
+            <div class="alert alert-danger shadow" role="alert" v-if="showMsg === 'error'">
               Please verify Task Information
             </div>
           </div>
@@ -20,8 +19,7 @@
                     <div class="form-group row justify-content-around py-2">
                       <label class="col-4">Title</label>
                       <div class="col col-8">
-                        <input v-model="task.title" type="text" class="form-control-sm form-control"
-                               id="userplaceholder">
+                        <input v-model="task.title" type="text" class="form-control-sm form-control" id="userplaceholder">
                       </div>
                     </div>
                     <div class="form-group row justify-content-around py-2">
@@ -76,6 +74,20 @@
                 </form>
               </div>
             </div>
+            <div style="margin-top: 20px">
+              <div class="card w-25" style="padding: 1%; margin:auto">
+                <div class="card-body" v-if="getMyBoards">
+                  <p class="card-title">Your Lists:</p>
+                  <div v-for="board in boards" v-bind:key="board">
+                    <p class="card-text" >{{ board.title }} | PK : {{ board.pk }}
+                    </p>
+                  </div>
+                </div>
+                <div class="card-body" v-else>
+                  <p class="card-title">You have no assigned lists.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -84,7 +96,7 @@
 </template>
 <script>
 import router from '../router';
-import {APIService} from '../http/APIService';
+import { APIService } from '../http/APIService';
 
 const apiService = new APIService();
 
@@ -94,7 +106,7 @@ export default {
   //prevent user from accessing this page if not authorized
   beforeCreate() {
     if (localStorage.getItem("isAuthenticated") &&
-        JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
+      JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
       this.authenticated = true
     } else {
       this.authenticated = false
@@ -110,7 +122,8 @@ export default {
       pageTitle: "Create Task",
       isUpdate: false,
       showMsg: '',
-      authenticated: false
+      authenticated: false,
+      boards: [],
     };
   },
   methods: {
@@ -158,9 +171,27 @@ export default {
           this.showMsg = "error";
         }
       });
-    }
+    },
+    getMyBoards() {
+      apiService.getMyBoards().then(response => {
+        this.boards = response.data.data;
+        this.boardSize = this.board.length;
+        if (this.boardSize != 0) {
+          if (localStorage.getItem("isAuthenticated")
+            && JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
+            this.validUserName = JSON.parse(localStorage.getItem("log_user"));
+          }
+        }
+      }).catch(error => {
+        if (error.response?.status === 401) {
+          localStorage.clear();
+          router.push("/auth");
+        }
+      });
+    },
   },
   mounted() {
+    this.getMyBoards()
     if (this.$route.params.pk) {
       this.pageTitle = "Edit Task";
       this.isUpdate = true;

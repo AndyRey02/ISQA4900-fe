@@ -18,7 +18,7 @@
                 <form ref="form">
                   <div class="container-fluid">
                     <div class="form-group row justify-content-around py-2">
-                      <label class="col-5">List Pk </label>
+                      <label class="col-5">List PK </label>
                       <div class="col col-7">
                         <input v-model="list.pk" type="text"
                                class="form-control-sm form-control">
@@ -147,7 +147,7 @@ export default {
       });
     },
     cancelOperation() {
-      router.push("/mylist");
+      router.push("/mylists");
     },
     updateList() {
       if (typeof this.list.group_set == 'string') {

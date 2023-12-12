@@ -114,7 +114,7 @@
                                   <img :src="require('@/assets/grocerylist.jpg')" class="card-img-top"
                                       style="height: 15rem">
                                   <div class="card-body">
-                                      <a @click="viewGroups" class="btn btn-primary">Groceries</a>
+                                      <a @click="viewGroceries" class="btn btn-primary">Groceries</a>
                                   </div>
                               </div>
                               <div class="card">
@@ -122,7 +122,7 @@
                                   <img :src="require('@/assets/chorelist.jpg')" class="card-img-top"
                                       style="height: 15rem">
                                   <div class="card-body">
-                                      <a @click="viewList" class="btn btn-primary">Chores</a>
+                                      <a @click="viewChores" class="btn btn-primary">Chores</a>
                                   </div>
                               </div>
                               <div class="card">
@@ -130,7 +130,7 @@
                                   <img :src="require('@/assets/outdoorchores.jpg')" class="card-img-top"
                                       style="height: 15rem">
                                   <div class="card-body">
-                                      <a @click="viewTasks" class="btn btn-primary">Outdoor Projects</a>
+                                      <a @click="viewOutdoorProjects" class="btn btn-primary">Outdoor Projects</a>
                                   </div>
                               </div>
                               <div class="card">
@@ -138,7 +138,7 @@
                                   <img :src="require('@/assets/cleaninglist.jpg')" class="card-img-top"
                                       style="height: 15rem">
                                   <div class="card-body">
-                                      <a @click="viewTasks" class="btn btn-primary">Cleaning</a>
+                                      <a @click="viewCleaning" class="btn btn-primary">Cleaning</a>
                                   </div>
                               </div>
                           </div>
@@ -172,6 +172,18 @@ export default {
   },
 
   methods: {
+      viewGroceries() {
+          router.push('/list/4');
+      },
+      viewChores() {
+          router.push('/list/3');
+      },
+      viewOutdoorProjects() {
+          router.push('/list/1');
+      },
+      viewCleaning() {
+          router.push('/list/2');
+      },
       viewGroups() {
           router.push('/mygroups');
       },
